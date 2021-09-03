@@ -1,0 +1,20 @@
+<!-- 选择栏位 -->
+<div class="header">
+  <div class="check" (click)="go_to_summary()">
+    <div class="dot">
+      <div class="small_dot" [ngClass]="{'choice': check_dot_bool==true}"></div>
+    </div>
+    <div class="text">summary</div>
+  </div>
+  <div class="check" (click)="go_to_detail()">
+    <div class="dot">
+      <div class="small_dot" [ngClass]="{'choice': check_dot_bool!=true}"></div>
+    </div>
+    <div class="text">detail</div>
+  </div>
+</div>
+
+<!-- 显示界面 -->
+<div class="body">
+  <router-outlet></router-outlet>
+</div>

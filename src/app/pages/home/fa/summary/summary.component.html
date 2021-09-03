@@ -1,0 +1,156 @@
+<!-- 功能按钮 -->
+<div class="check">
+  <div class="selector">
+    <div (click)="line()">Line</div>
+    <div (click)="model()">Model</div>
+    <div (click)="shift()">Shift</div>
+  </div>
+  <div class="mark">
+    <div (click)="color()">Color
+      <img src="../../../../../assets/logo/color_logo.svg" alt="">
+    </div>
+    <div (click)="excel()">EXCEL
+      <img src="../../../../../assets/logo/dowload_logo.svg" alt="">
+    </div>
+    <div (click)="edit()">Edit
+      <img src="../../../../../assets/logo/edit_logo.svg" alt="">
+      <!-- <div class="check_hide" *ngIf="go_bool"></div> -->
+    </div>
+  </div>
+  <div class="button">
+    <!-- <div (click)="calendar()">时间
+      <img src="../../../../../assets/logo/calendar_logo.svg" alt="">
+    </div>
+    <div (click)="calendar()">时间
+      <img src="../../../../../assets/logo/calendar_logo.svg" alt="">
+    </div> -->
+    <nz-date-picker [(ngModel)]="start_date" (ngModelChange)="onChange($event)"></nz-date-picker>
+    <nz-date-picker [(ngModel)]="end_date" (ngModelChange)="onChange($event)"></nz-date-picker>
+    <div (click)="go()">GO</div>
+
+  </div>
+  <div class="check_hide" *ngIf="modify_bool"></div>
+</div>
+
+
+
+
+
+<!-- 表格填写 -->
+<div class="form">
+  <table>
+    <thead>
+      <tr>
+        <th rowspan="2" style="width: 6%;">綫別</th>
+        <th colspan="4" style="width: 16%;" *ngFor="let item of show_calendar">
+          {{item}}
+        </th>
+        <th colspan="2" style="width: 9%;">當班產能</th>
+      </tr>
+      <tr>
+        <ng-container *ngFor="let item of show_calendar">
+          <th colspan="2" style="width: 8.25%;">Day</th>
+          <th colspan="2" style="width: 8.25%;">Night</th>
+        </ng-container>
+        <th>幾種</th>
+        <th>產能</th>
+      </tr>
+    </thead>
+    <div>
+      <tbody>
+        <ng-container *ngFor="let list of machine_data_list; let i=index ">
+          <!-- <ng-container *ngIf="i!=0" ; then thenTemplate></ng-container> -->
+          <!-- <ng-template *ngIf="i!=0"> -->
+          <tr>
+            <td [rowSpan]=list.length-2 style="width: 6%;">
+              <input *ngIf="modify_bool" class="edit_input" style="height: 20%;" [(ngModel)]="list[0]" type="text">
+              <span *ngIf="!modify_bool">{{list[0]}}</span>
+              <br>
+              <img *ngIf="modify_bool" src="../../../../../assets/logo/Increase_small_logo.svg"
+                (click)="increase_model(list)">
+            </td>
+            <table id="internal_table">
+              <tbody>
+                <tr id="line_table" *ngFor="let items of list | slice:1:list.length-1;let id=index">
+                  <ng-container *ngFor="let item of items">
+                    <td style="width: 5%;">
+                      <ng-container *ngIf="!modify_bool">
+                        {{item.model}}
+                      </ng-container>
+                      <select *ngIf="modify_bool" (change)="editTable($event,item)" class="select_table"
+                        value={{item.model}}>
+                        <option *ngIf="item.model" value={{item.model}}>{{item.model}}</option>
+                        <option *ngFor="let i of type_modle_list">{{i.model}}</option>
+                      </select>
+                    </td>
+                    <!-- <td style="width: 5%;" (focusout)="edit_list($event,item)" >{{item.number}}</td> -->
+                    <td style="width: 5%;">
+                      <input *ngIf="modify_bool" class="edit_input" [(ngModel)]="item.number" type="text">
+                      <span *ngIf="!modify_bool">{{item.number}}</span>
+                    </td>
+                    <!-- <td *ngIf="modify_bool"><input [(ngModel)]="item.number"
+                        style="width: 100%;background-color: black;color: white;" type="text"
+                        (focusout)="edit_list($event,item)">
+                    </td>
+                    <td style="width: 5%;" *ngIf="!modify_bool">{{item.number}}</td> -->
+                  </ng-container>
+                  <ng-container *ngIf="modify_bool">
+                    <div (click)="clear_model(list[id+1])">清除行</div>
+                    <div (click)="delete_model(list,id+1)" style="top:22px">删除行</div>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </table>
+            <td [rowSpan]=list.length-1 colspan="2" style="width: 9%;">
+            </td>
+          </tr>
+
+          <tr *ngIf="!modify_bool" id="tll">
+            <td style="width: 6%;">TLL{{i}}</td>
+            <ng-container *ngFor="let item of list[list.length-1]">
+              <td style="width: 8.25%;" colspan="2">{{item}}</td>
+            </ng-container>
+            <td style="width: 9%;" colspan="2">7</td>
+          </tr>
+          <!-- </ng-template> -->
+        </ng-container>
+        <!-- <tr>
+        <ng-container *ngFor="let item of calendar_list">
+          <td><select name="" id="">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select></td>
+          <td>2</td>
+          <td>2</td>
+          <td>2</td>
+        </ng-container>        
+      </tr> -->
+      </tbody>
+    </div>
+  </table>  
+</div>
+
+<!-- 机种数量统计 -->
+<div class="sum">
+  <div *ngIf="go_bool">
+        <span *ngFor="let item of page_number_list"
+      [ngStyle]="{'background-color': item.status? 'rgba(72, 156, 156, 100)':'','border-color': item.status? '#489C9C':'rgba(255, 255, 255, 100)','cursor':'pointer'}"
+      (click)="check_number(item.number )">{{item.number}}</span>       
+  </div>
+  <div class="increase" *ngIf="modify_bool" (click)="increase_type()">
+    <div>
+      <img src="../../../../../assets/logo/Increase_large_logo.svg" alt="">
+      新增綫別
+    </div>
+  </div>
+
+  <div class="window" *ngIf="modify_bool">
+    <div (click)="edit_submit(false)">
+      取消</div>
+    <div (click)="edit_submit(true)" style="background-color:rgba(35, 205, 151, 0.9);">
+      確認</div>
+  </div>
+  <!-- 幾種數量統計 -->
+  <div></div>
+</div>

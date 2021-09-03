@@ -1,0 +1,45 @@
+.home{
+  height: 92%;
+  width: 100%;
+  display: flex;
+}
+
+/* 左侧菜单 */
+.menu{
+  height: 100%;
+  width: 15%;
+  background-color: #203033 ;
+}
+
+.menu :hover{
+  background-color: #174B4D ;
+  cursor:pointer;
+}
+
+.field
+{
+  /* margin-top: 2%; */
+  height: 10%;
+  padding-left: 10%;
+  align-items: center;
+  display: flex; 
+}
+
+.field img{
+  height: 40%;
+  width: 40%;
+}
+
+.field span{
+  height: 40%;
+  width: 40%;
+  font-size:  18px;
+}
+
+
+/* 显示栏 */
+.content{
+  height: 100%;
+  width: 85%;
+  background-color: #1B1D1F;
+}

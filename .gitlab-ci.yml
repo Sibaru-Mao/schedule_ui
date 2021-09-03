@@ -1,0 +1,70 @@
+include:
+    project: 'cicd_wks/cicdtemplate'
+    file: '/.gitlab-ci.ui.angular.yml'
+
+variables:
+  BUILD_IMAGE_NAME: 'image_name'
+  SERVICE_NAME: 'zap-scan-service-name'
+  EXPOSE_PORT: 4200
+
+unit_test:
+  extends: auto_testing
+  only:
+    - master
+  tags:
+    - wks-runner01
+
+angular_compile:
+  extends: ng-build
+  only:
+    - master
+  tags:
+    - wks-runner01
+
+build_test:
+  extends: build_test_image
+  only:
+    - master
+  tags:
+    - wks-runner01
+
+
+deploy_test:
+  extends: deploy_for_test
+  only:
+    - master
+  tags:
+    - wks-runner01
+
+
+zap_scan:
+  extends: vulnerability_scan
+  only:
+    - master
+  tags:
+    - wks-runner01
+
+
+sonar_scan:
+  extends: code_scan
+  only:
+    - master
+  tags:
+    - wks-runner01
+
+version_process:
+  extends: get_version
+  only:
+    - master
+    - pre-production
+    - production
+  tags:
+    - wks-runner01
+
+
+build_image:
+  extends: docker-build
+  only:
+    - master
+  tags:
+    - wks-runner01

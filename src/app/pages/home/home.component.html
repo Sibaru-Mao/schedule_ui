@@ -1,0 +1,19 @@
+<div class="home">
+
+  <!-- 左侧菜单栏 -->
+  <div class="menu">
+    <div class="field" (click)="go_to_fa()">
+      <img src="../../../assets/logo/FA_image.svg" alt="">
+      <span>FA</span>
+    </div>
+    <div class="field" (click)="go_to_maintenance()">
+      <img src="../../../assets/logo/maintenance_image.svg" alt="">
+      <span>維護</span>
+    </div>
+  </div>
+  <!-- 功能界面 -->
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
