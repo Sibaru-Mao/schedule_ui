@@ -1,0 +1,117 @@
+.check {
+  height: 7%;
+  width: 100%;
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+.selector {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.selector div {
+  /* border: 1px solid #959596; */
+  border-radius: 10%;
+  margin-right: 10px;
+}
+
+.mark {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  flex: 4;
+}
+
+.mark div {
+  /* border: 1px solid #959596; */
+  display: flex;
+  border-radius: 10%;
+  word-spacing:10px;
+  width: 88px;
+  height: 28px;
+  margin-left: 1.5%;
+  line-height: 32px;
+  text-align: center;
+  font-size: 13px;
+  background: transparent;
+  color: rgba(255, 255, 255, 100);
+  border: 1px solid rgba(81, 87, 88, 100);
+  border-radius: 5px;
+  outline: none;
+  vertical-align: middle;
+
+}
+
+.mark div img{
+  margin-left: 20%;
+}
+
+.right-top {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex: 1;
+}
+
+.right-top div {
+  border: 1px solid #959596;
+  border-radius: 10%;
+}
+
+.select {
+  width: 88px;
+  height: 28px;
+  margin-left: 1.5%;
+  line-height: 32px;
+  text-align: center;
+  /* font-size: 13px; */
+  background: transparent;
+  color: rgba(255, 255, 255, 100);
+  border: 1px solid rgba(81, 87, 88, 100);
+  border-radius: 5px;
+  outline: none;
+  vertical-align: middle;
+}
+
+.select>option {
+  border: none;
+  outline: none;
+  color: #ffffff;
+  /* font-size: 13px; */
+  background-color: #1B1D1F;
+  margin: 3px;
+}
+/* .d-line{
+  width: 88px;
+  height: 28px;
+} */
+
+th {
+  width: 128px;
+  height: 66px;
+  background-color: rgba(0, 95, 141, 100);
+}
+
+nz-date-picker {
+  margin: 0 8px 12px 0;
+}
+
+/* ng-zorro */
+nz-date-picker {
+  margin: auto;
+  width: 40%;
+  height: 28px;
+  border: 2px solid #489C9C;
+  background-color: #1B1D1F;
+  background: url("../../../../../assets/logo/calendar_logo.svg") no-repeat scroll right center transparent;
+}
+
+:host ::ng-deep .ng-pristine,
+:host ::ng-deep .ng-untouched{
+  text-align: center;
+  color: white;
+}

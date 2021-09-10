@@ -1,1 +1,80 @@
 <!-- <p>detail works!</p> -->
+<div class="check">
+  <div class='selector'>
+    <div class="d-line" (click)="line()">
+      <select class="select" >
+        <option value="" selected>Line</option>
+        <option value="" *ngFor="let item of line_list">{{item.line}}</option>
+      </select>
+    </div>
+    <div (click)="model()">
+      <select class="select" >
+        <option value="" selected>Model</option>
+        <option value="">qqq</option>
+        <option value="">eee</option>
+      </select>
+    </div>
+    <div (click)="shift()">
+      <select class="select" >
+        <option value="" selected>Shift</option>
+        <option value="">D</option>
+        <option value="">V</option>
+      </select>
+    </div>
+  </div>
+  <div class="mark">
+    <div (click)="mo()">MO
+      <img src="../../../../../assets/logo/search_logo.svg" alt="MO">
+    </div>
+    <div (click)="edit()">Edit
+      <img src="../../../../../assets/logo/edit_logo.svg" alt="编辑">
+    </div>
+    <div (click)="upload()">upload
+      <img src="../../../../../assets/logo/upload_logo.svg" alt="上传">
+    </div>
+    <div (click)="excel()">EXCEL
+      <img src="../../../../../assets/logo/dowload_logo.svg" alt="下载">
+    </div>
+  </div>
+<div class="right-top">
+  <!-- <div (click)="calendar()">时间
+    <img src="../../../../../assets/logo/calendar_logo.svg" alt="">
+  </div>
+  <div>时间
+    <img src="../../../../../assets/logo/calendar_logo.svg" alt="">
+  </div> -->
+  <nz-date-picker [(ngModel)]="start_date" (ngModelChange)="onChange($event)"></nz-date-picker>
+  <nz-date-picker [(ngModel)]="end_date" (ngModelChange)="onChange($event)"></nz-date-picker>
+  <div (click)="go()">GO</div>
+</div>
+</div>
+
+<!-- <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+<br />
+<nz-date-picker nzMode="week" [(ngModel)]="date" (ngModelChange)="getWeek($event)"></nz-date-picker>
+<br />
+<nz-date-picker nzMode="month" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+<br />
+<nz-date-picker nzMode="year" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+<br />
+<button nz-button nzType="default" (click)="changeLanguage()">Switch language for all pickers</button> -->
+
+<div class="from">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Shift</th>
+          <th>Line</th>
+          <th>MO</th>
+          <th>PN</th>
+          <th>QTY</th>
+          <th>Order type</th>
+          <th>Model</th>
+          <th>Remark</th>
+        </tr>
+      </thead>
+
+    </table>
+</div>
+

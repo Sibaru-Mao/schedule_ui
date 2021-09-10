@@ -1,3 +1,27 @@
+.select {
+  width: 100px;
+  height: 28px;
+  margin-left: 1.5%;
+  line-height: 32px;
+  text-align: center;
+  font-size: 13px;
+  background: transparent;
+  color: rgba(255, 255, 255, 100);
+  border: 1px solid rgba(81, 87, 88, 100);
+  border-radius: 5px;
+  outline: none;
+  vertical-align: middle;
+}
+
+.select>option {
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 13px;
+  background-color: #1B1D1F;
+  margin: 3px;
+}
+
 .check {
   height: 7%;
   width: 100%;
@@ -38,13 +62,16 @@
 }
 
 .button {
+  margin-left: 30%;
+  text-align: center;
   display: flex;
-  align-items: center;
   cursor: pointer;
 }
 
 .button div {
-  border: 1px solid #959596;
+  height:28px;
+  width:28px;
+  border: 2px solid #489C9C;
   border-radius: 10%;
 }
 
@@ -103,7 +130,7 @@
   position: relative;
 }
 
-#line_table div{
+#line_table div {
   height: 21px;
   width: 8%;
   border-radius: 5px;
@@ -111,6 +138,47 @@
   background-color: rgba(255, 255, 255, 0.7);
   position: absolute;
   cursor: pointer;
+}
+
+.green {
+  background-color: #23CD97;
+}
+
+.yellow {
+  background-color: #FACB00;
+}
+
+.red {
+  background-color: #F40606;
+}
+
+.color {
+  width: 80px;
+  height: 28px;
+  margin-left: 1.5%;
+  line-height: 32px;
+  text-align: center;
+  font-size: 13px;
+  background: transparent;
+  color: rgba(255, 255, 255, 100);
+  border: 1px solid rgba(81, 87, 88, 100);
+  border-radius: 5px;
+  outline: none;
+  vertical-align: middle;
+  appearance: none;
+  /* -moz-appearance:none;
+  -webkit-appearance:none;
+  background-color: #fff; */
+  background: url("../../../../../assets/logo/color_logo.svg") no-repeat scroll right center transparent;
+}
+
+.color>option {
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 13px;
+  background-color: #1B1D1F;
+  margin: 3px;
 }
 
 .select_table {
@@ -242,8 +310,8 @@ table tbody tr {
   align-items: center;
 }
 
-.edit_input{
-  border: 0px; 
+.edit_input {
+  border: 0px;
   width: 100%;
   height: 100%;
   background: transparent;
@@ -270,6 +338,24 @@ ul {
 
 /* ng-zorro */
 nz-date-picker {
-  margin: 0 8px 12px 0;
+  margin: auto;
+  width: 40%;
+  height: 28px;
+  border: 2px solid #489C9C;
   background-color: #1B1D1F;
+  background: url("../../../../../assets/logo/calendar_logo.svg") no-repeat scroll right center transparent;
 }
+
+:host ::ng-deep .ng-pristine,
+:host ::ng-deep .ng-untouched{
+  text-align: center;
+  color: white;
+}
+
+/* button {
+  margin-right: 8px;
+  margin-bottom: 8px;
+  width: 70px;
+  text-align: center;
+  padding: 0;
+} */
