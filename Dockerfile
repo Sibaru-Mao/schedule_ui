@@ -15,7 +15,7 @@ ADD . /app/
 WORKDIR /app
 
 # Copy Angular output into nginx html
-COPY ./dist /usr/share/nginx/html
+COPY ./dist/scheduleUi /usr/share/nginx/html
 
 # Copy nginx Configs
 COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
