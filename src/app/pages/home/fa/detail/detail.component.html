@@ -1,52 +1,59 @@
 <!-- <p>detail works!</p> -->
 <div class="check">
   <div class='selector'>
-    <div class="d-line" (click)="line()">
-      <select class="select" >
-        <option value="" selected>Line</option>
-        <option value="" *ngFor="let item of line_list">{{item.line}}</option>
-      </select>
-    </div>
-    <div (click)="model()">
-      <select class="select" >
-        <option value="" selected>Model</option>
-        <option value="">qqq</option>
-        <option value="">eee</option>
-      </select>
-    </div>
-    <div (click)="shift()">
-      <select class="select" >
-        <option value="" selected>Shift</option>
-        <option value="">D</option>
-        <option value="">V</option>
-      </select>
-    </div>
+    <select class="select" [(ngModel)]="line_param">
+      <option value=ALL>Line</option>
+      <option [value]=item.line *ngFor="let item of line_list">{{item.line}}</option>
+    </select>
+    <select class="select" [(ngModel)]="model_param">
+      <option value=ALL>Model</option>
+      <option [value]=item.model *ngFor="let item of model_list">{{item.model}}</option>
+    </select>
+    <select class="select" [(ngModel)]="shift_param">
+      <option value="ALL">Shift</option>
+      <option value="D">D</option>
+      <option value="N">N</option>
+    </select>
   </div>
   <div class="mark">
-    <div (click)="mo()">MO
+    <input type="text" [(ngModel)]="mo_param" placeholder="MO">
+    <!-- <div>MO
       <img src="../../../../../assets/logo/search_logo.svg" alt="MO">
-    </div>
-    <div (click)="edit()">Edit
+    </div> -->
+    <!-- <div (click)="edit()">Edit
       <img src="../../../../../assets/logo/edit_logo.svg" alt="编辑">
-    </div>
-    <div (click)="upload()">upload
+    </div> -->
+    <!-- <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76">
+      <button nz-button><i nz-icon nzType="upload"></i>Upload</button>
+    </nz-upload> -->
+<!--
+    <div class="form-group" id="excel-file" style="margin-top: 10px">
+    <div class="col-sm-2 control-label">上传</div>
+    <div class="col-sm-10"> -->
+      <input id="person_list" type="file" class="file"
+        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        (change)="pushExcel()" />
+    <!-- </div>
+    </div> -->
+
+    <!-- <div (click)="upload()">upload
       <img src="../../../../../assets/logo/upload_logo.svg" alt="上传">
-    </div>
-    <div (click)="excel()">EXCEL
+    </div> -->
+    <div (click)="downExcel()">EXCEL
       <img src="../../../../../assets/logo/dowload_logo.svg" alt="下载">
     </div>
   </div>
-<div class="right-top">
-  <!-- <div (click)="calendar()">时间
+  <div class="right-top">
+    <!-- <div (click)="calendar()">时间
     <img src="../../../../../assets/logo/calendar_logo.svg" alt="">
   </div>
   <div>时间
     <img src="../../../../../assets/logo/calendar_logo.svg" alt="">
   </div> -->
-  <nz-date-picker [(ngModel)]="start_date" (ngModelChange)="onChange($event)"></nz-date-picker>
-  <nz-date-picker [(ngModel)]="end_date" (ngModelChange)="onChange($event)"></nz-date-picker>
-  <div (click)="go()">GO</div>
-</div>
+    <nz-date-picker [(ngModel)]="start_date"></nz-date-picker>
+    <nz-date-picker [(ngModel)]="end_date"></nz-date-picker>
+    <div (click)="go()">GO</div>
+  </div>
 </div>
 
 <!-- <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
@@ -59,7 +66,108 @@
 <br />
 <button nz-button nzType="default" (click)="changeLanguage()">Switch language for all pickers</button> -->
 
-<div class="from">
+<!-- <nz-table #editRowTable nzBordered [nzData]="detail_list" nzShowPagination=false [nzScroll]="{x:'auto', y: '340px' }"
+  nzTableLayout="fixed">
+  <thead>
+    <tr>
+      <th nzWidth="10%">Date</th>
+      <th nzWidth="10%">Shift</th>
+      <th nzWidth="10%">Line</th>
+      <th nzWidth="10%">MO</th>
+      <th nzWidth="10%">PN</th>
+      <th nzWidth="10%">QTY</th>
+      <th nzWidth="10%">Order type</th>
+      <th nzWidth="10%">Model</th>
+      <th nzWidth="10%">Remark</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of editRowTable.data">
+      <ng-container *ngIf="!editCache[item.id].edit; else editTemplate">
+        <td nzWidth="10%">{{item.date}}</td>
+        <td nzWidth="10%">{{item.shift}}</td>
+        <td nzWidth="10%">{{item.line}}</td>
+        <td nzWidth="10%">{{item.mo}}</td>
+        <td nzWidth="10%">{{item.pn}}</td>
+        <td nzWidth="10%">{{item.qty}}</td>
+        <td nzWidth="10%">{{item.order_type}}</td>
+        <td nzWidth="10%">{{item.model}}</td>
+        <td nzWidth="10%">{{item.remark}}</td>
+        <td nzWidth="10%"><a (click)="startEdit(item.id)">Edit</a></td>
+      </ng-container>
+      <ng-template #editTemplate>
+        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.date" /></td>
+        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.shift" /></td>
+        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.line" /></td>
+        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.mo" /></td>
+        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.pn" /></td>
+        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.qty" /></td>
+        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.order_type" /></td>
+        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.model" /></td>
+        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.remark" /></td>
+        <td>
+          <a (click)="saveEdit(item.id)" class="save">Save</a>
+          <a nz-popconfirm nzTitle="Sure to cancel?" (nzOnConfirm)="cancelEdit(item.id)">Esc</a>
+        </td>
+      </ng-template>
+    </tr>
+  </tbody>
+</nz-table> -->
+
+<nz-table #fixedTable [nzData]="detail_list" [nzFrontPagination]=false [nzBordered]=true
+  [nzScroll]="{ x: '1000px', y: '380px' }">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Shift</th>
+      <th>Line</th>
+      <th>MO</th>
+      <th>PN</th>
+      <th>QTY</th>
+      <th>Order type</th>
+      <th>Model</th>
+      <th>Remark</th>
+      <th nzRight>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of fixedTable.data">
+      <ng-container *ngIf="!edit_cache[item.id].edit; else editTemplate">
+        <td>{{item.date}}</td>
+        <td>{{item.shift}}</td>
+        <td>{{item.line}}</td>
+        <td>{{item.mo}}</td>
+        <td>{{item.pn}}</td>
+        <td>{{item.qty}}</td>
+        <td>{{item.order_type}}</td>
+        <td>{{item.model}}</td>
+        <td>{{item.remark}}</td>
+        <td nzRight>
+          <a (click)="startEdit(item.id)">Edit</a>&nbsp;
+          <a (click)="deleteData(item.id)">Delete</a>
+        </td>
+      </ng-container>
+      <ng-template #editTemplate>
+        <td><input type="text" nz-input [(ngModel)]="edit_cache[item.id].data.date" /></td>
+        <td><input type="text" nz-input [(ngModel)]="edit_cache[item.id].data.shift" /></td>
+        <td><input type="text" nz-input [(ngModel)]="edit_cache[item.id].data.line" /></td>
+        <td><input type="text" nz-input [(ngModel)]="edit_cache[item.id].data.mo" /></td>
+        <td><input type="text" nz-input [(ngModel)]="edit_cache[item.id].data.pn" /></td>
+        <td><input type="text" nz-input [(ngModel)]="edit_cache[item.id].data.qty" /></td>
+        <td><input type="text" nz-input [(ngModel)]="edit_cache[item.id].data.order_type" /></td>
+        <td><input type="text" nz-input [(ngModel)]="edit_cache[item.id].data.model" /></td>
+        <td><input type="text" nz-input [(ngModel)]="edit_cache[item.id].data.remark" /></td>
+        <td>
+          <a (click)="saveEdit(item.id)" class="save">Save</a>
+          <a (click)="cancelEdit(item.id)">Esc</a>
+        </td>
+      </ng-template>
+    </tr>
+  </tbody>
+</nz-table>
+
+<!-- <div class="from">
     <table>
       <thead>
         <tr>
@@ -74,7 +182,19 @@
           <th>Remark</th>
         </tr>
       </thead>
+      <tbody>
+        <tr *ngFor="let item of detail_list">
+          <td>{{item.date}}</td>
+          <td>{{item.shift}}</td>
+          <td>{{item.line}}</td>
+          <td>{{item.mo}}</td>
+          <td>{{item.pn}}</td>
+          <td>{{item.qty}}</td>
+          <td>{{item.order_type}}</td>
+          <td>{{item.model}}</td>
+          <td>{{item.remark}}</td>
+        </tr>
+      </tbody>
 
     </table>
-</div>
-
+</div> -->

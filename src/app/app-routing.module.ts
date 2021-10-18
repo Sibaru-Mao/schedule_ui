@@ -1,3 +1,4 @@
+import { PersonnelComponent } from './pages/home/maintenance/personnel/personnel.component';
 import { DetailComponent } from './pages/home/fa/detail/detail.component';
 import { SummaryComponent } from './pages/home/fa/summary/summary.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -17,6 +18,7 @@ const main_part: any = [
   { path: '', redirectTo: 'fa', pathMatch: 'full' },
   { path: 'fa', component: FaComponent , children: fa_part},
   { path: 'maintenance', component: MaintenanceComponent },
+  { path: 'personnel', component: PersonnelComponent },
 ]
 
 const routes: Routes = [

@@ -1,6 +1,7 @@
 import { DataService } from './../../../../services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { element } from 'protractor';
+
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html',
@@ -11,6 +12,8 @@ export class SummaryComponent implements OnInit {
   model_param = "ALL"
   shift_param = "ALL"
   color_param = null
+  to_excel
+  excel_name
 
   start_date = null;
   end_date = null;
@@ -30,7 +33,7 @@ export class SummaryComponent implements OnInit {
   machine_data_list = []
   machine_attached_list: any[]
   show_machine_list = []
-  type_modle_list = [{ 'modeltype': '', 'model': '' }]
+  type_model_list = [{ 'modeltype': '', 'model': '' }]
   page_number_list = []
 
   now_page_number = 1
@@ -60,8 +63,9 @@ export class SummaryComponent implements OnInit {
   async get_machine_types() {
     let list = await this.dataservice.get_machine_types()
     list.forEach((element: { modeltype: string; model: string; }) => {
-      this.type_modle_list.push(element)
+      this.type_model_list.push(element)
     });
+    sessionStorage.setItem('model_list', JSON.stringify(this.type_model_list))
   }
 
   //获取所有线体名称
@@ -89,7 +93,7 @@ export class SummaryComponent implements OnInit {
 
   //获取本周线体的机种数量
   async get_machine_data(date: any[]) {
-    await this.get_machine_capacity(date)
+    await this.get_machine_capacity([this.format_date(new Date())[0] + this.format_date(new Date())[1] + this.format_date(new Date())[2]])
     this.machine_data_list = await this.dataservice.get_machine_data(date)
     this.machine_data_list.forEach((element: any, index: any) => {
       element.push([])
@@ -115,7 +119,7 @@ export class SummaryComponent implements OnInit {
     console.log("hello");
   }
 
-  //格式化日期：yyyy-MM-dd
+  //格式化日期：yyyyMMdd
   format_date(date: Date) {
     let myyear = date.getFullYear();
     let mymonth = date.getMonth() + 1;
@@ -125,7 +129,7 @@ export class SummaryComponent implements OnInit {
     if (mymonth < 10) {
       my_month = "0" + mymonth;
     } else {
-      my_month = my_month
+      my_month = mymonth
     }
     if (myweekday < 10) {
       my_day = "0" + myweekday;
@@ -140,7 +144,7 @@ export class SummaryComponent implements OnInit {
     this.show_calendar_list = []
     while ((end.getTime() - start.getTime()) >= 0) {
       let tem_date = this.format_date(start)
-      this.calendar_list.push(tem_date[0] + tem_date[1] + tem_date[2]);
+      this.calendar_list.push(tem_date[0].toString() + tem_date[1].toString() + tem_date[2]);
       this.show_calendar_list.push(tem_date[1] + '/' + tem_date[2])
       start.setDate(start.getDate() + 1);
     }
@@ -158,7 +162,7 @@ export class SummaryComponent implements OnInit {
     for (let index = 0; index < 5; index++) {
       let week_date = new Date(this.now_year, this.now_month, this.now_day + (index - this.now_week_day));
       let tem_date = this.format_date(week_date)
-      this.calendar_list.push(tem_date[0] + tem_date[1] + tem_date[2]);
+      this.calendar_list.push(tem_date[0].toString() + tem_date[1].toString() + tem_date[2]);
       this.show_calendar_list.push(tem_date[1] + '/' + tem_date[2])
     }
     this.show_calendar = this.show_calendar_list
@@ -181,23 +185,58 @@ export class SummaryComponent implements OnInit {
     list.push(tem_list)
   }
 
-  line() {
-
-  }
-
-  model() {
-
-  }
-
-  shift() { }
-
   color() {
     // if (this.modify_bool==false) {
     //   this.color_param=null
     // }
   }
 
-  excel() { }
+  downExcel() {
+    this.getData()
+    var uri = 'data:application/vnd.ms-excel;base64,';
+    var template = `<html xmlns:o="urn:schemas-microsoft-com:office:office"
+    xmlns:x="urn:schemas-microsoft-com:office:excel"
+    xmlns="http://www.w3.org/TR/REC-html40">
+    <head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>
+    <x:Name>${this.excel_name}</x:Name>
+    <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet>
+    </x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+    </head><body><table>${this.to_excel}</table></body></html>`;
+    //下载模板
+    window.location.href = uri + this.base64(template)
+  }
+  //输出base64编码
+  base64(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+
+  getData() {
+    this.to_excel = '';
+    this.to_excel += '<tr><th rowspan="2">綫別</th>'
+    for (let i = 0; i < this.show_calendar_list.length; i++) {
+      this.to_excel += '<th colspan="4">' + this.show_calendar_list[0] + '</th>'
+    }
+    this.to_excel += '<th colspan="2">當班產能</th></tr><tr>'
+    for (let i = 0; i < this.show_calendar_list.length; i++) {
+      this.to_excel += '<th colspan="2">Day</th><th colspan="2">Night</th>'
+    }
+    this.to_excel += '<th>幾種</th><th>產能</th></tr>'
+    this.machine_data_list.forEach((element, index) => {
+      element.forEach((elem, id) => {
+        if (id == 0) {
+          this.to_excel += '<tr><td rowspan=' + (element.length - 2) + '>' + elem + '</td><table><tr>'
+        } else {
+          this.to_excel += '<td>' + elem.model + '</td><td>' + elem.number + '</td>'
+        }
+      });
+      this.to_excel += '</tr></table><td rowspan=' + (element.length - 1) + ' colspan="2">'
+      this.capacity_obj[element[0]].forEach(e => {
+        this.to_excel += e.model + ':' + e.number + '<br>'
+      })
+      this.to_excel += '</td>'
+    });
+    // for (let i = 0; i < this.show_calendar_list.length; i++) {
+    //   this.to_excel += "<tr><td>" + this.detail_list[i].id + " </td><td>" + this.detail_list[i].date + " </td><td>" + this.detail_list[i].shift + " </td><td>" + this.detail_list[i].line + " </td><td>" + this.detail_list[i].mo + " </td><td>" + this.detail_list[i].pn + " </td><td>" + this.detail_list[i].qty + " </td><td>" + this.detail_list[i].order_type + " </td><td>" + this.detail_list[i].model + " </td><td>" + this.detail_list[i].remark + " </td></tr>"
+    // }
+  }
 
   edit() {
     this.go_bool = false
@@ -214,7 +253,6 @@ export class SummaryComponent implements OnInit {
 
   editTable(event: { target: { value: any; }; }, item: { model: any; }) {
     item.model = event.target.value
-    console.log(this.machine_attached_list);
   }
 
   clear_model(list: any[]) {

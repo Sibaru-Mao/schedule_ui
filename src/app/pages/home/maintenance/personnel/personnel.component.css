@@ -1,0 +1,76 @@
+/*1.功能栏 */
+.check {
+  width: 100%;
+  height: 8%;
+  display: flex;
+  border-bottom: 1px solid;
+  align-items: center;
+  position: relative;
+}
+
+
+/* 屏蔽栏 */
+.check_hide {
+  z-index: 10;
+  height: 100%;
+  width: 95%;
+  border: 0px;
+  position: absolute;
+  background-color: transparent;
+}
+
+/* 按钮 */
+.check div {
+  margin-left: 2%;
+  margin-right: 3%;
+  color: #5A6062;
+  display: flex;
+  align-items: center;
+  border-style: solid;
+}
+
+.check div :hover{
+  cursor: pointer;
+}
+
+
+.check div img {
+  align-items: center;
+}
+
+
+/* ng-zorro */
+nz-date-picker {
+  margin: auto;
+  width: 45%;
+  height: 28px;
+  border: 2px solid #489C9C;
+  /* background-color: #1B1D1F; */
+  background: url("../../../../../assets/logo/calendar_logo.svg") no-repeat scroll right center transparent;
+}
+
+:host ::ng-deep .ng-pristine,
+:host ::ng-deep .ng-untouched {
+  text-align: left;
+  color: white;
+}
+
+:host ::ng-deep .ant-table-cell{
+  color: white;
+}
+
+:host ::ng-deep .ant-table-cell-fix-right{
+   background-color: #115457;
+}
+
+:host ::ng-deep .ant-table-body{
+  background-color: #115457;
+}
+
+::ng-deep .ant-table-tbody>tr.ant-table-row:hover>td{
+  background-color: #115457;
+}
+
+:host ::ng-deep .ant-table-thead th{
+  background-color: #005F8D;
+}

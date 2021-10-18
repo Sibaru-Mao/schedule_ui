@@ -11,6 +11,7 @@
   border-radius: 5px;
   outline: none;
   vertical-align: middle;
+  cursor: pointer;
 }
 
 .select>option {
@@ -41,28 +42,29 @@
 .selector {
   display: flex;
   align-items: center;
-  cursor: pointer;
 }
 
-.selector div {
+/* .selector div {
   border: 1px solid #959596;
   border-radius: 10%;
-}
+} */
 
 .mark {
   display: flex;
   align-items: center;
-  cursor: pointer;
   position: relative;
+  flex: 2;
 }
 
 .mark div {
+  height:28px;
   border: 1px solid #959596;
   border-radius: 10%;
+  cursor: pointer;
 }
 
 .button {
-  margin-left: 30%;
+  /* margin-left: 22%; */
   text-align: center;
   display: flex;
   cursor: pointer;
@@ -166,6 +168,7 @@
   outline: none;
   vertical-align: middle;
   appearance: none;
+  cursor: pointer;
   /* -moz-appearance:none;
   -webkit-appearance:none;
   background-color: #fff; */

@@ -14,10 +14,13 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 //ngzorro
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { zh_CN } from 'ng-zorro-antd/i18n';
@@ -41,11 +44,14 @@ registerLocaleData(zh);
     AppRoutingModule,
     NzSelectModule,
     NzButtonModule,
+    NzModalModule,
     NzDatePickerModule,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    NzPopoverModule
+    NzPopoverModule,
+    NzTableModule,
+    NzUploadModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent]

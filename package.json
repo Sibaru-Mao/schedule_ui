@@ -23,6 +23,7 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "@types/jquery": "^3.5.5",
     "echarts": "^4.4.0",
+    "exceljs": "^4.3.0",
     "keycloak-angular": "^8.1.0",
     "keycloak-js": "^12.0.4",
     "ng-zorro-antd": "^10.2.2",

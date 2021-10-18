@@ -1,5 +1,5 @@
 <!-- 功能栏 -->
-<!-- <div class="check">
+<div class="check">
   <div (click)="add_machine_type()">
     <img src="../../../../assets/logo/add_logo.svg" alt="">
     <span>新增類型</span>
@@ -10,23 +10,25 @@
       新增幾種
     </span>
   </div>
-  <div>
+  <div (click)="go_to_personnel()">
     <img src="../../../../assets/logo/personnel_logo.svg" alt="">
     <span>
       維護人員信息
     </span>
   </div>
-  <div>
+  <div (click)="delete_edit()">
     <img src="../../../../assets/logo/delete_logo.svg" alt="">
-    <span (click)="delete_edit()">
+    <span>
       刪除
     </span>
   </div>
-</div> -->
+  <div class="check_hide" *ngIf="machine_type_bool"></div>
+</div>
+
 <!-- 机种类型表 -->
-<!-- <div class="bottom">
+<div class="bottom">
   <table border="1" cellspacing="0" cellpadding="0"   spellcheck=fasle>
-    <thead> 
+    <thead>
       <tr>
         <th>
           類型
@@ -37,28 +39,28 @@
       </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let items of arr">
-          <td *ngFor="let item of items">
-            {{item}}
+        <tr *ngFor="let items of arr;let id=index">
+          <td *ngFor="let item of items;let i=index">
+            <input *ngIf="machine_type_bool" (change)="change(i,id,$event)" value={{item}} type="text">
+            <span *ngIf="!machine_type_bool">{{item}}</span>
+          </td>
+          <ng-container *ngIf="delete_bool">
+            <div class="delete" (click)="delete_machine_type(id)">删除行</div>
+          </ng-container>
+        </tr>
+        <tr *ngIf="delete_bool">
+          <td></td>
+          <td *ngFor="let item of max_col | slice:1;let id=index" >
+            <div class="delete" (click)="delete_machine(id+1)" style="top:22px">删除列</div>
           </td>
         </tr>
     </tbody>
   </table>
-</div> -->
-  <!-- <div class="table">
-    <div class="table_header">
-      類型
-    </div>
-    <div class="table_tail">
-      機種名稱
-    </div>
-  </div>
+</div>
 
-  <div class="table">
-    <div class="table_header">
-      1
-    </div>
-    <div class="table_body">
-      2
-    </div>
-  </div> -->
+  <div class="window" *ngIf="machine_type_bool || delete_bool">
+    <div (click)="edit_submit(false)">
+      取消</div>
+    <div (click)="edit_submit(true)" style="background-color:rgba(35, 205, 151, 0.9);">
+      確認</div>
+  </div>

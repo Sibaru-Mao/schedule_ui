@@ -3,12 +3,12 @@
   <div class="selector">
     <!-- (change)="getPillardata($event.target.value)" -->
     <select class="select" [(ngModel)]="line_param">
-      <option value="ALL">ALL</option>
+      <option value=ALL>ALL</option>
       <option *ngFor="let item of line_list" [value]=item.line>{{item.line}}</option>
     </select>
     <select class="select" [(ngModel)]="model_param">
       <option value=ALL>ALL</option>
-      <option *ngFor="let item of type_modle_list" [value]=item.model>{{item.model}}</option>
+      <option *ngFor="let item of type_model_list" [value]=item.model>{{item.model}}</option>
     </select>
     <select class="select" [(ngModel)]="shift_param">
       <option *ngFor="let item of shift_list" [value]=item>{{item}}</option>
@@ -18,7 +18,7 @@
     <select class="color" [(ngModel)]="color_param" (change)="color()">Color
       <option *ngFor="let item of color_list" [value]=item>{{item}}</option>
     </select>
-    <div (click)="excel()">EXCEL
+    <div (click)="downExcel()">EXCEL
       <img src="../../../../../assets/logo/dowload_logo.svg" alt="">
     </div>
     <div (click)="edit()">Edit
@@ -90,7 +90,7 @@
                       <select *ngIf="modify_bool" (change)="editTable($event,item)" class="select_table"
                         value={{item.model}}>
                         <option *ngIf="item.model" value={{item.model}}>{{item.model}}</option>
-                        <option *ngFor="let i of type_modle_list">{{i.model}}</option>
+                        <option *ngFor="let i of type_model_list">{{i.model}}</option>
                       </select>
                     </td>
                     <!-- <td style="width: 5%;" (focusout)="edit_list($event,item)" >{{item.number}}</td> -->
