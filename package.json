@@ -27,10 +27,10 @@
     "keycloak-angular": "^8.1.0",
     "keycloak-js": "^12.0.4",
     "ng-zorro-antd": "^10.2.2",
-    "ng2-mqtt": "^0.1.2",
     "ngx-echarts": "^4.2.1",
     "ngx-loading": "^8.0.0",
     "rxjs": "~6.5.5",
+    "ts-xlsx": "0.0.11",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },

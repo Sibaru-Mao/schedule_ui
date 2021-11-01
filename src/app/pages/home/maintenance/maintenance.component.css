@@ -38,7 +38,7 @@ input {
   border-style: solid;
 }
 
-.check div :hover{
+.check div :hover {
   cursor: pointer;
 }
 
@@ -51,14 +51,30 @@ input {
   align-items: center;
 }
 
+
+table tr {
+  width: 100%;
+  position: relative;
+}
+
 .delete {
   height: 21px;
-  width: 8%;
+  width: 5%;
   border-radius: 5px;
   color: black;
   background-color: rgba(255, 255, 255, 0.7);
   position: absolute;
   cursor: pointer;
+}
+
+.col {
+  width: 48px;
+  margin-top: 10px;
+}
+
+.row{
+  right: 0px;
+  margin-top: -25px;
 }
 
 /* 2.机种类型表 */
@@ -84,7 +100,7 @@ table {
 }
 
 table th {
-  width: 40px;
+  /* width: 40px; */
   background-color: #174B4D;
 }
 
@@ -102,14 +118,14 @@ table tr>td:first-child {
   background-color: #174B4D;
 }
 
-table tr{
-  width: 100%;
-  position: relative;
-}
 
 table td {
   height: 30px;
-  width: 40px;
+  /* width: 40px; */
+}
+
+td {
+  position: relative;
 }
 
 .window {

@@ -1,5 +1,6 @@
+import { ActivateService } from './AuthGuard/activate.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,24 +11,50 @@ import { MaintenanceComponent } from './pages/home/maintenance/maintenance.compo
 import { PersonnelComponent } from './pages/home/maintenance/personnel/personnel.component';
 import { SummaryComponent } from './pages/home/fa/summary/summary.component';
 import { DetailComponent } from './pages/home/fa/detail/detail.component';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-
-//ngzorro
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { zh_CN } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
+import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';
 
 registerLocaleData(zh);
+
+let configjson = {
+  wkskeycloak: {
+    "url": "https://keycloak.wks.wistron.com.cn/auth/",
+    "realm": "K8SWKSI40",
+    "clientId": "TTL-schedule"
+  },
+}
+
+
+function initializeKeycloak(keycloak: KeycloakService) {
+  return () =>
+    keycloak.init({
+      config: {
+        url: configjson.wkskeycloak.url,
+        realm: configjson.wkskeycloak.realm,
+        clientId: configjson.wkskeycloak.clientId,
+      },
+      initOptions: {
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silentCheckSso.html',
+      },
+    });
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,8 +79,20 @@ registerLocaleData(zh);
     NzPopoverModule,
     NzTableModule,
     NzUploadModule,
+    NzCheckboxModule,
+    NzMessageModule,
+    KeycloakAngularModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: zh_CN }],
+  providers: [
+    { provide: NZ_I18N, useValue: zh_CN },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    },
+    ActivateService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

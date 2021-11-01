@@ -26,20 +26,29 @@
     <!-- <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76">
       <button nz-button><i nz-icon nzType="upload"></i>Upload</button>
     </nz-upload> -->
-<!--
+    <!--
     <div class="form-group" id="excel-file" style="margin-top: 10px">
     <div class="col-sm-2 control-label">上传</div>
     <div class="col-sm-10"> -->
-      <input id="person_list" type="file" class="file"
-        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-        (change)="pushExcel()" />
+    <label for="person_list" class="file">Upload
+    <input *ngIf="!edit_bool" id="person_list" type="file" class="file1"
+      accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+      (change)="pushExcel($event)" />
+    </label>
+    <!-- <nz-upload [nzBeforeUpload]="noType" [nzFilter]="filters" >
+      <button  nz-button [nzType]="'primary'" >确认</button>
+    </nz-upload> -->
+
+
+
+
     <!-- </div>
     </div> -->
 
     <!-- <div (click)="upload()">upload
       <img src="../../../../../assets/logo/upload_logo.svg" alt="上传">
     </div> -->
-    <div (click)="downExcel()">EXCEL
+    <div *ngIf="!download_bool" (click)="downExcel()">EXCEL
       <img src="../../../../../assets/logo/dowload_logo.svg" alt="下载">
     </div>
   </div>
@@ -144,8 +153,8 @@
         <td>{{item.model}}</td>
         <td>{{item.remark}}</td>
         <td nzRight>
-          <a (click)="startEdit(item.id)">Edit</a>&nbsp;
-          <a (click)="deleteData(item.id)">Delete</a>
+          <a *ngIf="!edit_bool" (click)="startEdit(item.id)">Edit</a>&nbsp;
+          <a *ngIf="!edit_bool" (click)="deleteData(item.id)">Delete</a>
         </td>
       </ng-container>
       <ng-template #editTemplate>

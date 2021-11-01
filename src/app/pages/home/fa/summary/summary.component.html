@@ -15,13 +15,13 @@
     </select>
   </div>
   <div class="mark">
-    <select class="color" [(ngModel)]="color_param" (change)="color()">Color
+    <select *ngIf="!edit_bool"  class="color" [(ngModel)]="color_param" >Color
       <option *ngFor="let item of color_list" [value]=item>{{item}}</option>
     </select>
-    <div (click)="downExcel()">EXCEL
+    <div *ngIf="!download_bool"  (click)="downExcel()">EXCEL
       <img src="../../../../../assets/logo/dowload_logo.svg" alt="">
     </div>
-    <div (click)="edit()">Edit
+    <div *ngIf="!edit_bool"  (click)="edit()">Edit
       <img src="../../../../../assets/logo/edit_logo.svg" alt="">
       <!-- <div class="check_hide" *ngIf="go_bool"></div> -->
     </div>
@@ -130,7 +130,7 @@
           </tr>
 
           <tr *ngIf="!modify_bool" id="tll">
-            <td style="width: 6%;">TLL{{i}}</td>
+            <td style="width: 6%;">TTL {{list[0]}}</td>
             <ng-container *ngFor="let item of list[list.length-1]">
               <td style="width: 8.25%;" colspan="2">{{item}}</td>
             </ng-container>
@@ -157,10 +157,10 @@
 
 <!-- 机种数量统计 -->
 <div class="sum">
-  <div *ngIf="go_bool">
+  <div class="buttom" *ngIf="go_bool">
     <span *ngFor="let item of page_number_list"
       [ngStyle]="{'background-color': item.status? 'rgba(72, 156, 156, 100)':'','border-color': item.status? '#489C9C':'rgba(255, 255, 255, 100)','cursor':'pointer'}"
-      (click)="check_number(item.number )">{{item.number}}</span>
+      class="number" (click)="check_number(item.number )">{{item.number}}</span>
   </div>
   <div class="increase" *ngIf="modify_bool" (click)="increase_type()">
     <div>
@@ -176,5 +176,13 @@
       確認</div>
   </div>
   <!-- 幾種數量統計 -->
-  <div></div>
+  <table id="machine_type_sum">
+    <tbody id="mmachine_type">
+    <tr *ngFor="let items of show_type_list">
+      <td style="width: 6%;">{{items[0]}}</td>
+      <td *ngFor="let item of items[1]" style="width: 8.25%;">{{item}}</td>
+      <td style="width: 9%;"></td>
+    </tr>
+    </tbody>
+  </table>
 </div>

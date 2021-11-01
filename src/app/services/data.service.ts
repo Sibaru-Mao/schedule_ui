@@ -75,7 +75,16 @@ export class DataService {
     return (await this.http.get('showPersonnel'))
   }
 
-  async change_personnel(item) {
-    return (await this.http.post('changePersonnel', { data: item }))
+  async change_personnel(item,bool) {
+    return (await this.http.post('changePersonnel', { data: item,status:bool }))
+  }
+
+  /* 人员信息 */
+  async permission(user) {
+    return (await this.http.get('getPermission?user=' + JSON.stringify(user)))
+  }
+
+  async show_people(man) {
+    return (await this.http.get2('http://webap01.wks.wistron.com.cn:13015/api/Idlwwhrs?filter={"where":{"and":[{"EMPLID":' + JSON.stringify(man)+'}]}}'))
   }
 }

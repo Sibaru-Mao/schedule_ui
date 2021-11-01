@@ -1,31 +1,39 @@
 <!-- 功能栏 -->
 <div class="check">
-  <div (click)="add_personnel()">
+  <div (click)="showModal('isVisible')">
     <img src="../../../../assets/logo/add_logo.svg" alt="">
     <span>新增人員</span>
   </div>
-  <button nz-button nzType="primary" (click)="showModal()">
-    <span>新增人員</span>
-  </button>
-  <nz-modal [(nzVisible)]="isVisible" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
-    <!-- [nzTitle]="modalTitle" -->
-    <!-- <ng-template #modalTitle>Custom Modal Title</ng-template> -->
+  <nz-modal [(nzVisible)]="bool.isVisible" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel('isVisible')">
 
     <ng-template #modalContent>
-      <p>工號:</p><input type="text">
-      <p>姓名:</p><input type="text">
-      <p>Mail:</p><input type="text">
+      <p>工號:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" (change)="add_people()" [(ngModel)]="id_data"></p>
+      <p>姓名:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" [(ngModel)]="name_data"></p>
+      <p>Mail:&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-right: 40px;" type="text" [(ngModel)]="mail_data"></p>
       <p>權限選擇:</p>
       <div>
-        <input type="checkbox" name="checkname[]" value="1" />编辑<br>
-        <input type="checkbox" name="checkname[]" value="2" />下载<br>
-        <input type="checkbox" name="all" id="all" (click)="checkAll()" value="0"/>管理员
+        <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="updateSingleChecked()"></nz-checkbox-group>
+        <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()">管理员
+        </label>
       </div>
     </ng-template>
 
     <ng-template #modalFooter>
-      <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+      <button nz-button nzType="default" (click)="handleCancel('isVisible')">Cancel</button>
       <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Save</button>
+    </ng-template>
+  </nz-modal>
+  <nz-modal [(nzVisible)]="bool.isEdit" [nzContent]="editContent" [nzFooter]="editFooter" (nzOnCancel)="handleCancel('isEdit')">
+    <ng-template #editContent>
+      <div>
+        <input type="radio" id="check1" [(ngModel)]="check_data" value="1"/><label for="check1">编辑<br></label>
+        <input type="radio" id="check0" [(ngModel)]="check_data" value="0"/><label for="check0">刪除</label>
+      </div>
+    </ng-template>
+
+    <ng-template #editFooter>
+      <button nz-button nzType="default" (click)="handleCancel('isEdit')">Cancel</button>
+      <button nz-button nzType="primary" (click)="handleEdit()" [nzLoading]="isConfirmLoading">Save</button>
     </ng-template>
   </nz-modal>
 </div>
@@ -33,7 +41,7 @@
 <!-- 机种类型表 -->
 <div class="bottom">
   <nz-table #fixedTable [nzData]="personnel_list" [nzFrontPagination]=false [nzBordered]=true
-    [nzScroll]="{ x: '1000px', y: '380px' }">
+     [nzScroll]="{ x: '1000px', y: '380px' }">
     <thead>
       <tr>
         <th>工號</th>
@@ -51,34 +59,24 @@
         <td>{{item.mail}}</td>
         <ng-container [ngSwitch]="item.permission">
           <td *ngSwitchCase="1">
-            编辑
+            編輯
           </td>
           <td *ngSwitchCase="2">
             下载
           </td>
           <td *ngSwitchCase="3">
-            编辑，下载
+            編輯，下载
           </td>
-          <td *ngSwitchCase="0">
+          <td *ngSwitchCase="4">
             管理员
           </td>
-        </ng-container>
-        <td nzRight>
-          <a (click)="startEdit(item.id)">Edit</a>
-          <!-- &nbsp;
-          <a (click)="deleteData(item.id)">Delete</a> -->
-        </td>
-          <!-- </ng-container> -->
-          <!-- <ng-template #editTemplate>
-          <td><input type="text" nz-input [(ngModel)]="edit_cache[item.id].data.id" /></td>
-          <td><input type="text" nz-input [(ngModel)]="edit_cache[item.id].data.username" /></td>
-          <td><input type="text" nz-input [(ngModel)]="edit_cache[item.id].data.mail" /></td>
-          <td><input type="text" nz-input [(ngModel)]="edit_cache[item.id].data.permission" /></td>
-          <td>
-            <a (click)="saveEdit(item.id)" class="save">Save</a>
-            <a (click)="cancelEdit(item.id)">Esc</a>
+          <td *ngSwitchDefault>
+            无
           </td>
-        </ng-template> -->
+        </ng-container>
+        <td (click)="showModal('isEdit',item)">
+          <a >編輯<img src="../../../../../assets/logo/menu_logo.svg" alt=""></a>
+        </td>
       </tr>
     </tbody>
   </nz-table>

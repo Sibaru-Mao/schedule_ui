@@ -1,5 +1,7 @@
+import { KeycloakService } from 'keycloak-angular';
 import { Component, OnInit } from '@angular/core';
 import * as config from '../../../../assets/config.json'
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -7,11 +9,16 @@ import * as config from '../../../../assets/config.json'
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() {
+  constructor(private keycloak: KeycloakService) {
 
   }
 
   ngOnInit(): void {
+  }
+
+  logout() {
+    localStorage.clear();
+    this.keycloak.logout();
   }
 
 }

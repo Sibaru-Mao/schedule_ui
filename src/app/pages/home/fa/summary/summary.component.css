@@ -93,7 +93,7 @@
   height: 30%;
   width: 25%;
   color: black;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.13);
   margin-left: 15%;
   margin-right: 10%;
   text-align: center;
@@ -105,7 +105,7 @@
 
 
 .form {
-  height: 60%;
+  height: 58%;
   width: 100%;
 }
 
@@ -251,12 +251,12 @@ thead {
 }
 
 tbody {
-  height: 100%;
+  height: 90%;
   width: 99%;
 }
 
 table div {
-  height: 85%;
+  height: 72%;
   width: 100%;
   display: block;
   overflow-y: scroll;
@@ -330,14 +330,44 @@ table tbody tr {
   position: relative;
 }
 
+.buttom {
+  text-align: center;
+}
 
+.number {
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  line-height: 16px;
+  border-radius: 45%;
+  color: rgba(255, 255, 255, 100);
+  display: inline-block;
+  border: .5px solid rgba(255, 255, 255, 100);
+  margin-right: 10px;
+}
 
 ul {
   position: absolute;
   list-style: none;
 }
 
+#machine_type_sum{
+  height: 85%;
+  width: 100%;
+  display: inline-block;
+  overflow: auto;
+}
 
+#mmachine_type{
+  width: 101%;
+  display: inline-table;
+}
+
+#machine_type_sum td{
+  height: 40px;
+  background-color: #37483A;
+  border: 1px solid #C7E1E1;
+}
 
 /* ng-zorro */
 nz-date-picker {

@@ -22,45 +22,62 @@
       刪除
     </span>
   </div>
-  <div class="check_hide" *ngIf="machine_type_bool"></div>
+  <div class="check_hide" *ngIf="machine_type_bool || delete_bool ||all_bool"></div>
 </div>
 
 <!-- 机种类型表 -->
 <div class="bottom">
-  <table border="1" cellspacing="0" cellpadding="0"   spellcheck=fasle>
+  <table border="1" cellspacing="0" cellpadding="0" spellcheck=fasle>
     <thead>
       <tr>
         <th>
           類型
         </th>
-        <th colspan=99>
+        <th colspan=22>
           機種名稱
         </th>
       </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let items of arr;let id=index">
+      <ng-container style="position: relative;" *ngFor="let items of arr;let id=index">
+        <tr>
           <td *ngFor="let item of items;let i=index">
             <input *ngIf="machine_type_bool" (change)="change(i,id,$event)" value={{item}} type="text">
             <span *ngIf="!machine_type_bool">{{item}}</span>
+            <div *ngIf="id==arr.length-1&&delete_bool&&i!=0" class="delete col" (click)="delete_machine(i)"
+              style="top:22px">
+              删除列
+            </div>
           </td>
-          <ng-container *ngIf="delete_bool">
-            <div class="delete" (click)="delete_machine_type(id)">删除行</div>
-          </ng-container>
         </tr>
-        <tr *ngIf="delete_bool">
-          <td></td>
-          <td *ngFor="let item of max_col | slice:1;let id=index" >
+        <div *ngIf="delete_bool" class="delete row" (click)="delete_machine_type(id)">删除行</div>
+
+      </ng-container>
+
+      <!-- <dl *ngIf="delete_bool">
+        <td *ngFor="let item of max_col | slice:1;let id=index">
+          <dt></dt>
+          <dd>
             <div class="delete" (click)="delete_machine(id+1)" style="top:22px">删除列</div>
-          </td>
-        </tr>
+          </dd>
+        </td>
+      </dl> -->
+
+
+      <!-- <tr *ngIf="delete_bool">
+        <td></td>
+        <td *ngFor="let item of max_col | slice:1;let id=index">
+          <div class="delete" (click)="delete_machine(id+1)" style="top:22px">删除列</div>
+        </td>
+      </tr> -->
+
     </tbody>
   </table>
 </div>
 
-  <div class="window" *ngIf="machine_type_bool || delete_bool">
-    <div (click)="edit_submit(false)">
-      取消</div>
-    <div (click)="edit_submit(true)" style="background-color:rgba(35, 205, 151, 0.9);">
-      確認</div>
-  </div>
+<div class="window" *ngIf="machine_type_bool || delete_bool">
+  <div (click)="edit_submit(false)">
+    取消</div>
+  <div (click)="edit_submit(true)" style="background-color:rgba(35, 205, 151, 0.9);">
+    確認</div>
+</div>

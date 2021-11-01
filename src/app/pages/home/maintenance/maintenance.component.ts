@@ -12,14 +12,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class MaintenanceComponent implements OnInit {
   delete_bool=false
   machine_type_bool=false
+  all_bool=false
   arr
   arr_attached
   max_col
+  permission
   constructor(private data: DataService,private router :Router) { }
 
   async ngOnInit(): Promise<void> {
+    this.permission=JSON.parse(sessionStorage.getItem('permission'))
+    this.all_bool=false
+    this.capture()
     this.get_data()
-    // this.add()
+  }
+
+  capture() {
+    if (this.permission != 4 && this.permission != 3 && this.permission != 1) {
+      this.all_bool=true
+    }
   }
 
   delete_edit(){

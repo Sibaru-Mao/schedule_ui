@@ -1,3 +1,4 @@
+// import { ModalServiceService } from './../../../../services/modal-service.service';
 import { DataService } from './../../../../services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { element } from 'protractor';
@@ -14,6 +15,7 @@ export class SummaryComponent implements OnInit {
   color_param = null
   to_excel
   excel_name
+  permission
 
   start_date = null;
   end_date = null;
@@ -34,6 +36,8 @@ export class SummaryComponent implements OnInit {
   machine_attached_list: any[]
   show_machine_list = []
   type_model_list = [{ 'modeltype': '', 'model': '' }]
+  type_name_list = []
+  show_type_list = []
   page_number_list = []
 
   now_page_number = 1
@@ -46,25 +50,57 @@ export class SummaryComponent implements OnInit {
 
   modify_bool = false
   go_bool = false
+  edit_bool
+  download_bool
   constructor(
     private dataservice: DataService,
+    // private modals: ModalServiceService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+
+    this.permission = sessionStorage.getItem('permission')
+    this.edit_bool = false
+    this.download_bool = false
+    this.capture()
     this.get_machine_types()
     this.get_machine_lines()
     this.get_week_date()
 
     this.get_machine_data(this.calendar_list)
+
     // this.make_data()
+  }
+
+  //监测权限
+  capture() {
+    if (this.permission != 4) {
+      if (this.permission != 3) {
+        if (this.permission != 2) {
+          this.download_bool = true
+        }
+        if (this.permission != 1) {
+          this.edit_bool = true
+        }
+      }
+    }
   }
 
   //获取机种类型
   async get_machine_types() {
     let list = await this.dataservice.get_machine_types()
+    let obj = {}
     list.forEach((element: { modeltype: string; model: string; }) => {
       this.type_model_list.push(element)
+      if (!(element.modeltype in obj)) {
+        obj[element.modeltype] = ''
+      }
     });
+    Object.keys(obj).forEach((element: any, index: any) => {
+      if (element!='Other') {
+        this.type_name_list.push([element, []])
+      }
+    })
     sessionStorage.setItem('model_list', JSON.stringify(this.type_model_list))
   }
 
@@ -84,23 +120,22 @@ export class SummaryComponent implements OnInit {
         } else {
           this.capacity_sum_obj[element] += elem.output
         }
-
       });
     });
-    console.log(this.capacity_obj);
 
   }
 
   //获取本周线体的机种数量
   async get_machine_data(date: any[]) {
-    await this.get_machine_capacity([this.format_date(new Date())[0] + this.format_date(new Date())[1] + this.format_date(new Date())[2]])
+    await this.get_machine_capacity([this.format_date(new Date())[0].toString() + this.format_date(new Date())[1] + this.format_date(new Date())[2]])
     this.machine_data_list = await this.dataservice.get_machine_data(date)
+    this.format_type_name(date)
     this.machine_data_list.forEach((element: any, index: any) => {
       element.push([])
       this.machine_summation(element)
     })
     this.show_machine_list = this.machine_data_list
-    console.log(this.machine_data_list);
+    console.log(this.show_machine_list);
 
   }
 
@@ -108,6 +143,7 @@ export class SummaryComponent implements OnInit {
   async get_machine_date(data: any, date: any[]) {
     await this.get_machine_capacity(date)
     this.machine_data_list = await this.dataservice.get_machine_date(data, date)
+    this.format_type_name(date)
     this.machine_data_list.forEach((element: any, index: any) => {
       element.push([])
       this.machine_summation(element)
@@ -155,6 +191,42 @@ export class SummaryComponent implements OnInit {
     }
   }
 
+  // 格式化type_name_list
+  format_type_name(date) {
+    this.type_name_list.forEach(element => {
+      element[1] = []
+      for (let index = 0; index < date.length * 2; index++) {
+        element[1].push(0)
+      }
+    });
+    this.machine_data_list.forEach(element => {
+      element.forEach((elem, id) => {
+        if (id != 0) {
+          elem.forEach((e, i) => {
+            this.insert_list(e, i)
+          });
+        }
+      });
+    });
+    this.show_type_list=this.type_name_list
+  }
+
+  insert_list(e, i) {
+    if (e.model && e.number) {
+      let model = ""
+      for (let index = 0; index < this.type_model_list.length; index++) {
+        if (this.type_model_list[index].model == e.model) {
+          model = this.type_model_list[index].modeltype
+        }
+      }
+      this.type_name_list.forEach(element => {
+        if (model == element[0]) {
+          element[1][i] += e.number
+        }
+      });
+    }
+  }
+
   //获得本周的工作日期
   get_week_date() {
     this.calendar_list = []
@@ -185,11 +257,7 @@ export class SummaryComponent implements OnInit {
     list.push(tem_list)
   }
 
-  color() {
-    // if (this.modify_bool==false) {
-    //   this.color_param=null
-    // }
-  }
+
 
   downExcel() {
     this.getData()
@@ -197,7 +265,7 @@ export class SummaryComponent implements OnInit {
     var template = `<html xmlns:o="urn:schemas-microsoft-com:office:office"
     xmlns:x="urn:schemas-microsoft-com:office:excel"
     xmlns="http://www.w3.org/TR/REC-html40">
-    <head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>
+    <head><meta charset='UTF-8'><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>
     <x:Name>${this.excel_name}</x:Name>
     <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet>
     </x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
@@ -212,26 +280,49 @@ export class SummaryComponent implements OnInit {
     this.to_excel = '';
     this.to_excel += '<tr><th rowspan="2">綫別</th>'
     for (let i = 0; i < this.show_calendar_list.length; i++) {
-      this.to_excel += '<th colspan="4">' + this.show_calendar_list[0] + '</th>'
+      if (this.show_calendar_list[i]!='/') {
+
+        this.to_excel += '<th colspan="4">' + this.show_calendar_list[i] + '</th>'
+      }
     }
     this.to_excel += '<th colspan="2">當班產能</th></tr><tr>'
     for (let i = 0; i < this.show_calendar_list.length; i++) {
-      this.to_excel += '<th colspan="2">Day</th><th colspan="2">Night</th>'
+      if (this.show_calendar_list[i]!='/') {
+
+        this.to_excel += '<th colspan="2">Day</th><th colspan="2">Night</th>'
+      }
     }
     this.to_excel += '<th>幾種</th><th>產能</th></tr>'
     this.machine_data_list.forEach((element, index) => {
       element.forEach((elem, id) => {
         if (id == 0) {
-          this.to_excel += '<tr><td rowspan=' + (element.length - 2) + '>' + elem + '</td><table><tr>'
+          this.to_excel += '<tr><td rowspan=' + (element.length - 2) + '>' + elem + '</td>'
+        } else if (id == element.length - 1) {
+          this.to_excel += '<tr><td>TLL ' + element[0] + '</td>'
+          elem.forEach(e => {
+            this.to_excel += '<td colspan=2>' + e + '</td>'
+          });
+          this.to_excel += '<td colspan=2>' + this.capacity_sum_obj[element[0]] + '</td></tr>'
         } else {
-          this.to_excel += '<td>' + elem.model + '</td><td>' + elem.number + '</td>'
+          if (id != 1) {
+            this.to_excel += '<tr>'
+          }
+          elem.forEach(e => {
+            this.to_excel += '<td>' + e.model + '</td><td>' + e.number + '</td>'
+          });
+          if (id == 1) {
+            this.to_excel += '<td rowspan=' + (element.length - 2) + ' colspan="2">'
+            if (this.capacity_obj[element[0]]) {
+              this.capacity_obj[element[0]].forEach(e => {
+                this.to_excel += e.model + ':' + e.output + ';'
+              })
+              this.to_excel += '</td></tr>'
+            }
+          } else {
+            this.to_excel += '</tr>'
+          }
         }
       });
-      this.to_excel += '</tr></table><td rowspan=' + (element.length - 1) + ' colspan="2">'
-      this.capacity_obj[element[0]].forEach(e => {
-        this.to_excel += e.model + ':' + e.number + '<br>'
-      })
-      this.to_excel += '</td>'
     });
     // for (let i = 0; i < this.show_calendar_list.length; i++) {
     //   this.to_excel += "<tr><td>" + this.detail_list[i].id + " </td><td>" + this.detail_list[i].date + " </td><td>" + this.detail_list[i].shift + " </td><td>" + this.detail_list[i].line + " </td><td>" + this.detail_list[i].mo + " </td><td>" + this.detail_list[i].pn + " </td><td>" + this.detail_list[i].qty + " </td><td>" + this.detail_list[i].order_type + " </td><td>" + this.detail_list[i].model + " </td><td>" + this.detail_list[i].remark + " </td></tr>"
@@ -306,10 +397,6 @@ export class SummaryComponent implements OnInit {
     }
   }
 
-  calendar() {
-
-  }
-
   async go() {
     if (this.start_date == null || this.end_date == null) {
       alert("日期不能为空")
@@ -356,13 +443,35 @@ export class SummaryComponent implements OnInit {
           })
           let i = list_tem.length % 10
           while (i) {
-            list_tem.push({
-              "model": '',
-              "number": ''
-            })
+            if (id==element.length-1) {
+              list_tem.push('')
+            }else{
+              list_tem.push({
+                "model": '',
+                "number": ''
+              })
+            }
             i = (i + 1) % 10
           }
           this.show_machine_list[index].push(list_tem)
+        }
+      });
+    });
+    this.show_type_list = []
+    this.type_name_list.forEach((element, index) => {
+      element.forEach((elem, id) => {
+        if (id == 0) {
+          this.show_type_list.push([elem])
+        } else {
+          let list_tem = elem.filter((e, i) => {
+            return i >= (this.now_page_number - 1) * this.max_calendar_length * 2 && i < this.now_page_number * this.max_calendar_length * 2
+          })
+          let i = list_tem.length % 10
+          while (i) {
+            list_tem.push('')
+            i = (i + 1) % 10
+          }
+          this.show_type_list[index].push(list_tem)
         }
       });
     });

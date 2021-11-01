@@ -1,6 +1,9 @@
+// import { ModalServiceService } from './../../../../services/modal-service.service';
+import { SummaryComponent } from './../summary/summary.component';
 import { Component, OnInit } from '@angular/core';
 import { DataService } from './../../../../services/data.service';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import * as XLSX from 'ts-xlsx'
 // exceljs 所需的 polyfills
 // require('core-js/modules/es.promise');
 // require('core-js/modules/es.string.includes');
@@ -10,6 +13,7 @@ import { NzUploadFile } from 'ng-zorro-antd/upload';
 // require('core-js/modules/es.symbol.async-iterator');
 // require('regenerator-runtime/runtime');
 import * as Excel from 'exceljs';
+
 // const Excel = require('exceljs');
 // const ES = require('exceljs/dist/es5');
 
@@ -33,9 +37,12 @@ export class DetailComponent implements OnInit {
   model_param = "ALL"
   shift_param = "ALL"
   mo_param = ''
+  permission
+  edit_bool
+  download_bool
 
   to_excel
-  excel_name='detail'
+  excel_name = 'detail'
 
   line_list = []
   model_list = []
@@ -43,31 +50,68 @@ export class DetailComponent implements OnInit {
   data_list = [this.line_param, this.model_param, this.shift_param, this.mo_param]
 
   detail_tem_Obj = {}
-  constructor(private data: DataService) { }
+  constructor(
+    private data: DataService,
+    // private modals: ModalServiceService
+  ) { }
 
   async ngOnInit(): Promise<void> {
+    this.permission = JSON.parse(sessionStorage.getItem('permission'))
+    this.edit_bool = false
+    this.download_bool = false
+    this.capture()
     this.line_list = JSON.parse(sessionStorage.getItem('line_list'))
     this.model_list = JSON.parse(sessionStorage.getItem('model_list'))
     this.detail_list = await this.data.get_machine_detail(this.data_list, [this.now_date, this.now_date])
     this.updateEditCache();
   }
 
-  pushExcel() {
-    let file = document.getElementById("person_list")['files'][0];
-    let excel
-    let r = new FileReader();
-    r.readAsDataURL(file);
-    if (null != file) {
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function (e) {
-        excel = e.target.result
+  capture() {
+    if (this.permission != 4) {
+      if (this.permission != 3) {
+        if (this.permission != 2) {
+          this.download_bool = true
+        }
+        if (this.permission != 1) {
+          this.edit_bool = true
+        }
       }
     }
-    setTimeout(() => {
-      this.data.excel_machine_detail(excel)
+  }
 
-    }, 1000);
+  pushExcel(event) {
+    // r.readAsDataURL(file);
+    let file: File = event.target.files[0]
+
+    // if (null != file) {
+    let reader = new FileReader();
+    // reader.readAsDataURL(file);
+
+    // reader.onload = async e => {
+    //   const excel = e.target.result
+    //   await this.data.excel_machine_detail(excel)
+    // }
+    reader.onload = (e) => {
+      const excel: any = reader.result
+      // let excelData = new Uint8Array(excel);
+      // let arr = new Array();
+      // for (let i = 0; i != excelData.length; ++i) {
+      //   arr[i] = String.fromCharCode(excelData[i])
+      // }
+      // let bstr = arr.join("");
+
+      const worksheets = XLSX.read(excel, { type: 'binary' })
+      console.log("______________", worksheets);
+      const sheetName = worksheets.SheetNames[0]
+      const excelRowData = XLSX.utils.sheet_to_json(worksheets.Sheets[sheetName], {  header: 1 })
+      this.data.excel_machine_detail(excelRowData)
+      event.target.files = []
+    }
+    // }
+    if (file)
+      reader.readAsBinaryString(file)
+
+
   }
 
   downExcel() {
@@ -256,4 +300,41 @@ export class DetailComponent implements OnInit {
       // resolve(path.replace('./storages/moh/', 'storages/moh/download/'));
     });
   }
+
+
+
+
+
+
+
+  filters = [
+    {
+      name: 'type',
+      fn: (fileList) => {
+        const filterFiles = fileList.filter(w => ~['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].indexOf(w.type));
+        if (filterFiles.length !== fileList.length) {
+          // this.msg.error(`包含文件格式不正确，只支持 excel 格式`);
+          return filterFiles;
+        }
+        return fileList;
+      }
+    }
+  ];
+
+  //自定义文件上传
+  noType = (file: File): boolean => {
+    this.getExcelData(file)
+    return false;
+  }
+  //获取Excel数据
+  async getExcelData(file: any) {
+    const formData = new FormData();
+    formData.append('file', file);
+    this.data.excel_machine_detail(formData)
+    //上传文件并解析excel
+    // this.http.post('api/web/web/upload/file', formData).subscribe((res: any) => {
+
+    // })
+  }
+
 }

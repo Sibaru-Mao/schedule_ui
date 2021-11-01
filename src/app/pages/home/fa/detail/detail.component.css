@@ -7,6 +7,49 @@ input {
   background: transparent;
 }
 
+/*
+.mark .file1 {
+  width: 20%;
+  color: transparent;
+  opacity: 0;
+  background: url("../../../../../assets/logo/upload_logo.svg") no-repeat;
+  background-position: 38px 1px;
+  background-size: 100% 100%;
+} */
+
+.file {
+  width: 18%;
+  height: 28px;
+  position: relative;
+  display: inline-block;
+  margin-left: 1%;
+  background: url("../../../../../assets/logo/upload_logo.svg") no-repeat;
+  background-position: 28px 1px;
+  background-size: 100% 100%;
+  border: 1px solid rgba(81, 87, 88, 100);;
+  border-radius: 4px;
+  padding: 4px 12px;
+  overflow: hidden;
+  color: #fff;
+  text-decoration: none;
+  text-indent: 0;
+  line-height: 20px;
+}
+
+.file input {
+  position: absolute;
+  font-size: 100px;
+  right: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.file:hover {
+  cursor: pointer;
+}
+
+
+
 .check {
   height: 7%;
   width: 100%;
@@ -29,7 +72,7 @@ input {
   flex: 2;
 }
 
-.mark input{
+.mark input {
   border: 1px solid rgba(81, 87, 88, 100);
   width: 40%;
   height: 28px;
@@ -68,9 +111,9 @@ input {
   flex: 1;
 }
 
-.right-top div{
-  height:28px;
-  width:28px;
+.right-top div {
+  height: 28px;
+  width: 28px;
   border: 2px solid #489C9C;
   border-radius: 10%;
 }
@@ -143,8 +186,8 @@ th {
     );
   } */
 
-  /*滚动条里面轨道*/
-  /* ::-webkit-scrollbar-track {
+/*滚动条里面轨道*/
+/* ::-webkit-scrollbar-track {
     box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
     background: #1B1D1F;
     border-radius: 10px;
@@ -161,29 +204,36 @@ nz-date-picker {
   background: url("../../../../../assets/logo/calendar_logo.svg") no-repeat scroll right center transparent;
 }
 
+.ant-table-wrapper::after,
+.ant-table-wrapper::before {
+  display: none;
+  content: '';
+}
+
 :host ::ng-deep .ng-pristine,
 :host ::ng-deep .ng-untouched {
   text-align: left;
   color: white;
 }
 
-:host ::ng-deep .ant-table-cell{
+:host ::ng-deep .ant-table-cell {
   color: white;
 }
 
-:host ::ng-deep .ant-table-cell-fix-right{
-   background-color: #115457;
-}
-
-:host ::ng-deep .ant-table-body{
+:host ::ng-deep .ant-table-cell-fix-right {
   background-color: #115457;
 }
 
-::ng-deep .ant-table-tbody>tr.ant-table-row:hover>td{
+:host ::ng-deep .ant-table-body {
+  background-color: #115457;
+  /* max-height: 370px; */
+}
+
+::ng-deep .ant-table-tbody>tr.ant-table-row:hover>td {
   background-color: #115457;
 }
 
-:host ::ng-deep .ant-table-thead th{
+:host ::ng-deep .ant-table-thead th {
   background-color: #005F8D;
 }
 

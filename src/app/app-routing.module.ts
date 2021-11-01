@@ -1,3 +1,4 @@
+import { ActivateService } from './AuthGuard/activate.service';
 import { PersonnelComponent } from './pages/home/maintenance/personnel/personnel.component';
 import { DetailComponent } from './pages/home/fa/detail/detail.component';
 import { SummaryComponent } from './pages/home/fa/summary/summary.component';
@@ -7,6 +8,7 @@ import { FaComponent } from './pages/home/fa/fa.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './AuthGuard/authGuardA';
+
 
 const fa_part:any=[
   { path: '', redirectTo: 'summary', pathMatch: 'full' },
@@ -18,13 +20,12 @@ const main_part: any = [
   { path: '', redirectTo: 'fa', pathMatch: 'full' },
   { path: 'fa', component: FaComponent , children: fa_part},
   { path: 'maintenance', component: MaintenanceComponent },
-  { path: 'personnel', component: PersonnelComponent },
+  { path: 'personnel', component: PersonnelComponent, canActivate:[ActivateService] },
 ]
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  // , canActivate: [AuthGuard]
-  { path: 'home', component: HomeComponent, children: main_part },
+  { path: 'home', component: HomeComponent, children: main_part , canActivate: [AuthGuard]},
 ];
 
 @NgModule({
