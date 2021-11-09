@@ -91,7 +91,7 @@ export class DetailComponent implements OnInit {
     //   const excel = e.target.result
     //   await this.data.excel_machine_detail(excel)
     // }
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       const excel: any = reader.result
       // let excelData = new Uint8Array(excel);
       // let arr = new Array();
@@ -101,17 +101,15 @@ export class DetailComponent implements OnInit {
       // let bstr = arr.join("");
 
       const worksheets = XLSX.read(excel, { type: 'binary' })
-      console.log("______________", worksheets);
       const sheetName = worksheets.SheetNames[0]
-      const excelRowData = XLSX.utils.sheet_to_json(worksheets.Sheets[sheetName], {  header: 1 })
-      this.data.excel_machine_detail(excelRowData)
+      const excelRowData = XLSX.utils.sheet_to_json(worksheets.Sheets[sheetName], { header: 1 })
+      let a = await this.data.excel_machine_detail(excelRowData)
+      alert(a['status'])
       event.target.files = []
     }
     // }
     if (file)
       reader.readAsBinaryString(file)
-
-
   }
 
   downExcel() {

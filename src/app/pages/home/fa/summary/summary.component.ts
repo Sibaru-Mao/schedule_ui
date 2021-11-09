@@ -97,7 +97,7 @@ export class SummaryComponent implements OnInit {
       }
     });
     Object.keys(obj).forEach((element: any, index: any) => {
-      if (element!='Other') {
+      if (element != 'Other') {
         this.type_name_list.push([element, []])
       }
     })
@@ -208,7 +208,7 @@ export class SummaryComponent implements OnInit {
         }
       });
     });
-    this.show_type_list=this.type_name_list
+    this.show_type_list = this.type_name_list
   }
 
   insert_list(e, i) {
@@ -232,7 +232,7 @@ export class SummaryComponent implements OnInit {
     this.calendar_list = []
     this.show_calendar_list = []
     for (let index = 0; index < 5; index++) {
-      let week_date = new Date(this.now_year, this.now_month, this.now_day + (index - this.now_week_day));
+      let week_date = new Date(this.now_year, this.now_month, this.now_day + index);
       let tem_date = this.format_date(week_date)
       this.calendar_list.push(tem_date[0].toString() + tem_date[1].toString() + tem_date[2]);
       this.show_calendar_list.push(tem_date[1] + '/' + tem_date[2])
@@ -280,14 +280,14 @@ export class SummaryComponent implements OnInit {
     this.to_excel = '';
     this.to_excel += '<tr><th rowspan="2">綫別</th>'
     for (let i = 0; i < this.show_calendar_list.length; i++) {
-      if (this.show_calendar_list[i]!='/') {
+      if (this.show_calendar_list[i] != '/') {
 
         this.to_excel += '<th colspan="4">' + this.show_calendar_list[i] + '</th>'
       }
     }
     this.to_excel += '<th colspan="2">當班產能</th></tr><tr>'
     for (let i = 0; i < this.show_calendar_list.length; i++) {
-      if (this.show_calendar_list[i]!='/') {
+      if (this.show_calendar_list[i] != '/') {
 
         this.to_excel += '<th colspan="2">Day</th><th colspan="2">Night</th>'
       }
@@ -443,9 +443,9 @@ export class SummaryComponent implements OnInit {
           })
           let i = list_tem.length % 10
           while (i) {
-            if (id==element.length-1) {
+            if (id == element.length - 1) {
               list_tem.push('')
-            }else{
+            } else {
               list_tem.push({
                 "model": '',
                 "number": ''

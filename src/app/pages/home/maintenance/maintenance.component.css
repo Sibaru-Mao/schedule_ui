@@ -28,6 +28,15 @@ input {
   background-color: transparent;
 }
 
+.hide {
+  left: 25%;
+  z-index: 10;
+  height: 100%;
+  width: 50%;
+  border: 0 solid #000;
+  position: absolute;
+}
+
 /* 按钮 */
 .check div {
   margin-left: 2%;
@@ -72,7 +81,7 @@ table tr {
   margin-top: 10px;
 }
 
-.row{
+.row {
   right: 0px;
   margin-top: -25px;
 }

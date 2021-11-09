@@ -22,7 +22,8 @@
       刪除
     </span>
   </div>
-  <div class="check_hide" *ngIf="machine_type_bool || delete_bool ||all_bool"></div>
+  <div class="hide" *ngIf="machine_type_bool"></div>
+  <div class="check_hide" *ngIf="delete_bool ||all_bool"></div>
 </div>
 
 <!-- 机种类型表 -->
