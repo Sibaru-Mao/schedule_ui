@@ -17,7 +17,7 @@ export class HttpService {
   ) {
     // let config = this.configService.getSpecificConfigure('datasources')
     // this.ROOTURL = config.host;
-    this.ROOTURL='http://10.66.153.13:3000/'//http://pc-schedule-api.k8sprd-wks.k8s.wistron.com/
+    this.ROOTURL = 'http://pc-schedule-api.k8sprd-wks.k8s.wistron.com/'//http://pc-schedule-api.k8sprd-wks.k8s.wistron.com/ http://10.66.153.13:3000/
     this.httpOptions
     // this.ROOTURL2 = config.host2;
     // this.ROOTURL3 = config.host3;
