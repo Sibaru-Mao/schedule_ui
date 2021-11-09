@@ -80,25 +80,11 @@ export class DetailComponent implements OnInit {
   }
 
   pushExcel(event) {
-    // r.readAsDataURL(file);
     let file: File = event.target.files[0]
-
-    // if (null != file) {
     let reader = new FileReader();
-    // reader.readAsDataURL(file);
 
-    // reader.onload = async e => {
-    //   const excel = e.target.result
-    //   await this.data.excel_machine_detail(excel)
-    // }
     reader.onload = async (e) => {
       const excel: any = reader.result
-      // let excelData = new Uint8Array(excel);
-      // let arr = new Array();
-      // for (let i = 0; i != excelData.length; ++i) {
-      //   arr[i] = String.fromCharCode(excelData[i])
-      // }
-      // let bstr = arr.join("");
 
       const worksheets = XLSX.read(excel, { type: 'binary' })
       const sheetName = worksheets.SheetNames[0]
