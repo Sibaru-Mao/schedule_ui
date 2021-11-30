@@ -1,3 +1,10 @@
 {
-  "version":"2021/07/26"
+  "version": "2021/11/26",
+  "URL": "http://webap01.wks.wistron.com.cn:13015/api/",
+  "url": "http://10.66.153.13:3000/",
+  "wkskeycloak": {
+    "url": "https://keycloak.wks.wistron.com.cn/auth/",
+    "realm": "K8SWKSI40",
+    "clientId": "TTL-schedule"
+  }
 }

@@ -57,7 +57,7 @@
 }
 
 .mark div {
-  height:28px;
+  height: 28px;
   border: 1px solid #959596;
   border-radius: 10%;
   cursor: pointer;
@@ -71,8 +71,8 @@
 }
 
 .button div {
-  height:28px;
-  width:28px;
+  height: 28px;
+  width: 28px;
   border: 2px solid #489C9C;
   border-radius: 10%;
 }
@@ -251,6 +251,7 @@ thead {
 }
 
 tbody {
+  border-collapse: collapse;
   height: 90%;
   width: 99%;
 }
@@ -282,10 +283,20 @@ table tbody tr {
   background-color: #203033;
 }
 
-/* table td:hover {
-  background-color: tomato;
+table tbody .tr-capacity {
+  display: flex;
+}
+
+table tbody .tr-capacity img {
+  transform: translate(0, -5px);
   cursor: pointer;
-} */
+}
+
+.capacity {
+  width: 10.8%;
+  display: inline-block;
+  overflow: auto;
+}
 
 #tll {
   background-color: #1B1D1F;
@@ -313,12 +324,11 @@ table tbody tr {
   align-items: center;
 }
 
-.edit_input {
+table tbody .edit_input {
   border: 0px;
   width: 100%;
-  height: 100%;
+  height: 40%;
   background: transparent;
-  background-color: #203033;
   color: white;
 }
 
@@ -351,19 +361,19 @@ ul {
   list-style: none;
 }
 
-#machine_type_sum{
-  height: 85%;
+#machine_type_sum {
+  height: 70%;
   width: 100%;
   display: inline-block;
   overflow: auto;
 }
 
-#mmachine_type{
+#machine_type {
   width: 101%;
   display: inline-table;
 }
 
-#machine_type_sum td{
+#machine_type_sum td {
   height: 40px;
   background-color: #37483A;
   border: 1px solid #C7E1E1;
@@ -380,7 +390,7 @@ nz-date-picker {
 }
 
 :host ::ng-deep .ng-pristine,
-:host ::ng-deep .ng-untouched{
+:host ::ng-deep .ng-untouched {
   text-align: center;
   color: white;
 }

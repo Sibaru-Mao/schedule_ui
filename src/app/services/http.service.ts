@@ -1,6 +1,7 @@
 // import { ConfigServiceService } from './configService/config-service.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+let config = require('../../assets/config.json')
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +18,7 @@ export class HttpService {
   ) {
     // let config = this.configService.getSpecificConfigure('datasources')
     // this.ROOTURL = config.host;
-    this.ROOTURL = 'http://pc-schedule-api.k8sprd-wks.k8s.wistron.com/'//http://pc-schedule-api.k8sprd-wks.k8s.wistron.com/ http://10.66.153.13:3000/
+    this.ROOTURL = config.url
     this.httpOptions
     // this.ROOTURL2 = config.host2;
     // this.ROOTURL3 = config.host3;
@@ -28,7 +29,8 @@ export class HttpService {
     return res;
   }
 
-  get2(URL: string): any {
+  get2(url: string): any {
+    var URL = config.URL + url;
     var res = this.judgeToken(URL, '', 'get');
     return res;
   }

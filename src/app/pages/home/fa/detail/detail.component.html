@@ -17,112 +17,22 @@
   </div>
   <div class="mark">
     <input type="text" [(ngModel)]="mo_param" placeholder="MO">
-    <!-- <div>MO
-      <img src="../../../../../assets/logo/search_logo.svg" alt="MO">
-    </div> -->
-    <!-- <div (click)="edit()">Edit
-      <img src="../../../../../assets/logo/edit_logo.svg" alt="编辑">
-    </div> -->
-    <!-- <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76">
-      <button nz-button><i nz-icon nzType="upload"></i>Upload</button>
-    </nz-upload> -->
-    <!--
-    <div class="form-group" id="excel-file" style="margin-top: 10px">
-    <div class="col-sm-2 control-label">上传</div>
-    <div class="col-sm-10"> -->
     <label for="person_list" class="file">Upload
-    <input *ngIf="!edit_bool" id="person_list" type="file" class="file1"
-      accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-      (change)="pushExcel($event)" />
+      <input *ngIf="!edit_bool" id="person_list" type="file" class="file1"
+        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        (change)="pushExcel($event)" />
     </label>
-    <!-- <nz-upload [nzBeforeUpload]="noType" [nzFilter]="filters" >
-      <button  nz-button [nzType]="'primary'" >确认</button>
-    </nz-upload> -->
 
-
-
-
-    <!-- </div>
-    </div> -->
-
-    <!-- <div (click)="upload()">upload
-      <img src="../../../../../assets/logo/upload_logo.svg" alt="上传">
-    </div> -->
     <div *ngIf="!download_bool" (click)="downExcel()">EXCEL
       <img src="../../../../../assets/logo/dowload_logo.svg" alt="下载">
     </div>
   </div>
   <div class="right-top">
-    <!-- <div (click)="calendar()">时间
-    <img src="../../../../../assets/logo/calendar_logo.svg" alt="">
-  </div>
-  <div>时间
-    <img src="../../../../../assets/logo/calendar_logo.svg" alt="">
-  </div> -->
     <nz-date-picker [(ngModel)]="start_date"></nz-date-picker>
     <nz-date-picker [(ngModel)]="end_date"></nz-date-picker>
     <div (click)="go()">GO</div>
   </div>
 </div>
-
-<!-- <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
-<br />
-<nz-date-picker nzMode="week" [(ngModel)]="date" (ngModelChange)="getWeek($event)"></nz-date-picker>
-<br />
-<nz-date-picker nzMode="month" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
-<br />
-<nz-date-picker nzMode="year" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
-<br />
-<button nz-button nzType="default" (click)="changeLanguage()">Switch language for all pickers</button> -->
-
-<!-- <nz-table #editRowTable nzBordered [nzData]="detail_list" nzShowPagination=false [nzScroll]="{x:'auto', y: '340px' }"
-  nzTableLayout="fixed">
-  <thead>
-    <tr>
-      <th nzWidth="10%">Date</th>
-      <th nzWidth="10%">Shift</th>
-      <th nzWidth="10%">Line</th>
-      <th nzWidth="10%">MO</th>
-      <th nzWidth="10%">PN</th>
-      <th nzWidth="10%">QTY</th>
-      <th nzWidth="10%">Order type</th>
-      <th nzWidth="10%">Model</th>
-      <th nzWidth="10%">Remark</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of editRowTable.data">
-      <ng-container *ngIf="!editCache[item.id].edit; else editTemplate">
-        <td nzWidth="10%">{{item.date}}</td>
-        <td nzWidth="10%">{{item.shift}}</td>
-        <td nzWidth="10%">{{item.line}}</td>
-        <td nzWidth="10%">{{item.mo}}</td>
-        <td nzWidth="10%">{{item.pn}}</td>
-        <td nzWidth="10%">{{item.qty}}</td>
-        <td nzWidth="10%">{{item.order_type}}</td>
-        <td nzWidth="10%">{{item.model}}</td>
-        <td nzWidth="10%">{{item.remark}}</td>
-        <td nzWidth="10%"><a (click)="startEdit(item.id)">Edit</a></td>
-      </ng-container>
-      <ng-template #editTemplate>
-        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.date" /></td>
-        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.shift" /></td>
-        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.line" /></td>
-        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.mo" /></td>
-        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.pn" /></td>
-        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.qty" /></td>
-        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.order_type" /></td>
-        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.model" /></td>
-        <td><input type="text" nz-input [(ngModel)]="editCache[item.id].item.remark" /></td>
-        <td>
-          <a (click)="saveEdit(item.id)" class="save">Save</a>
-          <a nz-popconfirm nzTitle="Sure to cancel?" (nzOnConfirm)="cancelEdit(item.id)">Esc</a>
-        </td>
-      </ng-template>
-    </tr>
-  </tbody>
-</nz-table> -->
 
 <nz-table #fixedTable [nzData]="detail_list" [nzFrontPagination]=false [nzBordered]=true
   [nzScroll]="{ x: '1000px', y: '380px' }">
@@ -175,35 +85,3 @@
     </tr>
   </tbody>
 </nz-table>
-
-<!-- <div class="from">
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Shift</th>
-          <th>Line</th>
-          <th>MO</th>
-          <th>PN</th>
-          <th>QTY</th>
-          <th>Order type</th>
-          <th>Model</th>
-          <th>Remark</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of detail_list">
-          <td>{{item.date}}</td>
-          <td>{{item.shift}}</td>
-          <td>{{item.line}}</td>
-          <td>{{item.mo}}</td>
-          <td>{{item.pn}}</td>
-          <td>{{item.qty}}</td>
-          <td>{{item.order_type}}</td>
-          <td>{{item.model}}</td>
-          <td>{{item.remark}}</td>
-        </tr>
-      </tbody>
-
-    </table>
-</div> -->

@@ -36,7 +36,7 @@ export class SummaryComponent implements OnInit {
   machine_attached_list: any[]
   show_machine_list = []
   type_model_list = [{ 'modeltype': '', 'model': '' }]
-  type_name_list = []
+  type_name_list: any = [['TTL Shift', []]]
   show_type_list = []
   page_number_list = []
 
@@ -122,10 +122,9 @@ export class SummaryComponent implements OnInit {
         }
       });
     });
-
   }
 
-  //获取本周线体的机种数量
+  //获取本月线体的机种数量
   async get_machine_data(date: any[]) {
     await this.get_machine_capacity([this.format_date(new Date())[0].toString() + this.format_date(new Date())[1] + this.format_date(new Date())[2]])
     this.machine_data_list = await this.dataservice.get_machine_data(date)
@@ -134,9 +133,7 @@ export class SummaryComponent implements OnInit {
       element.push([])
       this.machine_summation(element)
     })
-    this.show_machine_list = this.machine_data_list
-    console.log(this.show_machine_list);
-
+    this.getDataValue()
   }
 
   //获取请求范围內线体的机种数量
@@ -208,15 +205,19 @@ export class SummaryComponent implements OnInit {
         }
       });
     });
-    this.show_type_list = this.type_name_list
+    // this.show_type_list = this.type_name_list
   }
 
+  //机种和班别数量进行加总
   insert_list(e, i) {
     if (e.model && e.number) {
       let model = ""
       for (let index = 0; index < this.type_model_list.length; index++) {
         if (this.type_model_list[index].model == e.model) {
           model = this.type_model_list[index].modeltype
+          if (model != 'Other') {
+            this.type_name_list[0][1][i] += 1
+          }
         }
       }
       this.type_name_list.forEach(element => {
@@ -231,13 +232,12 @@ export class SummaryComponent implements OnInit {
   get_week_date() {
     this.calendar_list = []
     this.show_calendar_list = []
-    for (let index = 0; index < 5; index++) {
+    for (let index = 0; index < 30; index++) {
       let week_date = new Date(this.now_year, this.now_month, this.now_day + index);
       let tem_date = this.format_date(week_date)
       this.calendar_list.push(tem_date[0].toString() + tem_date[1].toString() + tem_date[2]);
       this.show_calendar_list.push(tem_date[1] + '/' + tem_date[2])
     }
-    this.show_calendar = this.show_calendar_list
   }
 
   //机种数目求和
@@ -255,9 +255,9 @@ export class SummaryComponent implements OnInit {
       }
     });
     list.push(tem_list)
+
+    this.type_name_list[0][1]
   }
-
-
 
   downExcel() {
     this.getData()
@@ -298,7 +298,7 @@ export class SummaryComponent implements OnInit {
         if (id == 0) {
           this.to_excel += '<tr><td rowspan=' + (element.length - 2) + '>' + elem + '</td>'
         } else if (id == element.length - 1) {
-          this.to_excel += '<tr><td>TLL ' + element[0] + '</td>'
+          this.to_excel += '<tr><td>TTL ' + element[0] + '</td>'
           elem.forEach(e => {
             this.to_excel += '<td colspan=2>' + e + '</td>'
           });
@@ -324,9 +324,14 @@ export class SummaryComponent implements OnInit {
         }
       });
     });
-    // for (let i = 0; i < this.show_calendar_list.length; i++) {
-    //   this.to_excel += "<tr><td>" + this.detail_list[i].id + " </td><td>" + this.detail_list[i].date + " </td><td>" + this.detail_list[i].shift + " </td><td>" + this.detail_list[i].line + " </td><td>" + this.detail_list[i].mo + " </td><td>" + this.detail_list[i].pn + " </td><td>" + this.detail_list[i].qty + " </td><td>" + this.detail_list[i].order_type + " </td><td>" + this.detail_list[i].model + " </td><td>" + this.detail_list[i].remark + " </td></tr>"
-    // }
+    this.type_name_list.forEach(element => {
+      this.to_excel += '<tr>'
+      this.to_excel += '<td>' + element[0] + '</td>'
+      for (let i = 0; i < element[1].length; i++) {
+        this.to_excel += '<td colspan="2">' + element[1][i] + '</td>'
+      }
+      this.to_excel += '</tr>'
+    });
   }
 
   edit() {
@@ -361,8 +366,8 @@ export class SummaryComponent implements OnInit {
   }
 
   //添加机种
-  increase_model(list: any[][]) {
-    console.log(list);
+  increase_model(i) {
+    let list = this.machine_data_list[i]
     list.pop()
     list.push([])
     for (let i = 0; i < this.calendar_list.length * 2; i++) {
@@ -373,6 +378,7 @@ export class SummaryComponent implements OnInit {
       });
     }
     list.push([])
+    this.getDataValue()
   }
 
   //添加线体
@@ -381,11 +387,11 @@ export class SummaryComponent implements OnInit {
     let element = this.machine_data_list[this.machine_data_list.length - 1]
     element.unshift('')
     element.push([])
-    this.increase_model(element)
+    this.increase_model(this.machine_data_list.length - 1)
   }
 
   // 修改的数据是否提交到表格数组
-  edit_submit(bool: any) {
+  async edit_submit(bool: any) {
     this.modify_bool = !this.modify_bool
     if (!bool) {
       this.machine_data_list = this.machine_attached_list.slice(0)
@@ -393,7 +399,8 @@ export class SummaryComponent implements OnInit {
       this.machine_data_list.forEach(element => {
         this.machine_summation(element)
       });
-      this.dataservice.change_machine_data(this.machine_data_list, this.calendar_list)
+      await this.dataservice.change_machine_data(this.machine_data_list, this.calendar_list)
+      this.get_machine_data(this.calendar_list)
     }
   }
 
@@ -475,9 +482,6 @@ export class SummaryComponent implements OnInit {
         }
       });
     });
-    // this.show_machine_list = this.machine_data_list.filter((e, i) => {
-    //   return i >= (this.now_page_number - 1) * this.max_calendar_length && i < this.now_page_number * this.max_calendar_length
-    // })
     this.page_number_list[this.now_page_number - 1].status = true
   }
 

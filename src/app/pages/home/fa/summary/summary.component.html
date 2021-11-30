@@ -1,7 +1,6 @@
 <!-- 功能按钮 -->
 <div class="check">
   <div class="selector">
-    <!-- (change)="getPillardata($event.target.value)" -->
     <select class="select" [(ngModel)]="line_param">
       <option value=ALL>ALL</option>
       <option *ngFor="let item of line_list" [value]=item.line>{{item.line}}</option>
@@ -15,34 +14,23 @@
     </select>
   </div>
   <div class="mark">
-    <select *ngIf="!edit_bool"  class="color" [(ngModel)]="color_param" >Color
+    <select *ngIf="!edit_bool" class="color" [(ngModel)]="color_param">Color
       <option *ngFor="let item of color_list" [value]=item>{{item}}</option>
     </select>
-    <div *ngIf="!download_bool"  (click)="downExcel()">EXCEL
+    <div *ngIf="!download_bool" (click)="downExcel()">EXCEL
       <img src="../../../../../assets/logo/dowload_logo.svg" alt="">
     </div>
-    <div *ngIf="!edit_bool"  (click)="edit()">Edit
+    <div *ngIf="!edit_bool" (click)="edit()">Edit
       <img src="../../../../../assets/logo/edit_logo.svg" alt="">
-      <!-- <div class="check_hide" *ngIf="go_bool"></div> -->
     </div>
   </div>
   <div class="button">
-    <!-- <div (click)="calendar()">时间
-      <img src="../../../../../assets/logo/calendar_logo.svg" alt="">
-    </div>
-    <div (click)="calendar()">时间
-      <img src="../../../../../assets/logo/calendar_logo.svg" alt="">
-    </div> -->
     <nz-date-picker [(ngModel)]="start_date" (ngModelChange)="onChange($event)"></nz-date-picker>
     <nz-date-picker [(ngModel)]="end_date" (ngModelChange)="onChange($event)"></nz-date-picker>
     <div (click)="go()">GO</div>
-
   </div>
   <div class="check_hide" *ngIf="modify_bool"></div>
 </div>
-
-
-
 
 
 <!-- 表格填写 -->
@@ -68,15 +56,13 @@
     <div>
       <tbody>
         <ng-container *ngFor="let list of show_machine_list; let i=index ">
-          <!-- <ng-container *ngIf="i!=0" ; then thenTemplate></ng-container> -->
-          <!-- <ng-template *ngIf="i!=0"> -->
-          <tr>
-            <td [rowSpan]=list.length-2 style="width: 6%;">
-              <input *ngIf="modify_bool" class="edit_input" style="height: 20%;" [(ngModel)]="list[0]" type="text">
+          <tr class="tr-capacity">
+            <td [rowSpan]=list.length-2 style="width: 7.2%" [ngStyle]=" {'height': (list.length-2)*43+'px'}">
+              <input *ngIf="modify_bool" class="edit_input" [(ngModel)]="machine_data_list[i][0]" type="text">
               <span *ngIf="!modify_bool">{{list[0]}}</span>
               <br>
               <img *ngIf="modify_bool" src="../../../../../assets/logo/Increase_small_logo.svg"
-                (click)="increase_model(list)">
+                (click)="increase_model(i)">
             </td>
             <table id="internal_table">
               <tbody>
@@ -93,7 +79,6 @@
                         <option *ngFor="let i of type_model_list">{{i.model}}</option>
                       </select>
                     </td>
-                    <!-- <td style="width: 5%;" (focusout)="edit_list($event,item)" >{{item.number}}</td> -->
                     <td style="width: 5%;" *ngIf="item.status==1||item.status==2||item.status==3"
                       (click)="changeColor(item)" nz-popover [nzPopoverContent]="contentTemplate"
                       nzPopoverPlacement="rightBottom"
@@ -101,7 +86,8 @@
                       <input *ngIf="modify_bool" class="edit_input" [(ngModel)]="item.number" type="text">
                       <span *ngIf="!modify_bool">{{item.number}}</span>
                     </td>
-                    <td style="width: 5%;" *ngIf="item.status!=1&&item.status!=2&&item.status!=3" (click)="changeColor(item)"
+                    <td style="width: 5%;" *ngIf="item.status!=1&&item.status!=2&&item.status!=3"
+                      (click)="changeColor(item)"
                       [ngClass]="{'green': item.status==1,'yellow':item.status==2,'red':item.status==3}">
                       <input *ngIf="modify_bool" class="edit_input" [(ngModel)]="item.number" type="text">
                       <span *ngIf="!modify_bool">{{item.number}}</span>
@@ -109,11 +95,6 @@
                     <ng-template #contentTemplate>
                       <p>新機種{{item.status==1?"BF":item.status==2?"PR":"CR"}},預計產能{{item.number}}pcs</p>
                     </ng-template>
-                    <!-- <td *ngIf="modify_bool"><input [(ngModel)]="item.number"
-                        style="width: 100%;background-color: black;color: white;" type="text"
-                        (focusout)="edit_list($event,item)">
-                    </td>
-                    <td style="width: 5%;" *ngIf="!modify_bool">{{item.number}}</td> -->
                   </ng-container>
                   <ng-container *ngIf="modify_bool">
                     <div (click)="clear_model(list[id+1])">清除行</div>
@@ -122,7 +103,7 @@
                 </tr>
               </tbody>
             </table>
-            <td [rowSpan]=list.length-1 colspan="2" style="width: 9%;">
+            <td class="capacity" [ngStyle]="{'height': (list.length-2)*43+'px'}" [rowSpan]="list.length-1" colspan="2">
               <ng-container *ngFor="let item of capacity_obj[list[0]]">
                 {{item.model}}:{{item.output}}<br>
               </ng-container>
@@ -136,20 +117,7 @@
             </ng-container>
             <td style="width: 9%;" colspan="2">{{capacity_sum_obj[list[0]]}}</td>
           </tr>
-          <!-- </ng-template> -->
         </ng-container>
-        <!-- <tr>
-        <ng-container *ngFor="let item of calendar_list">
-          <td><select name="" id="">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-          </select></td>
-          <td>2</td>
-          <td>2</td>
-          <td>2</td>
-        </ng-container>
-      </tr> -->
       </tbody>
     </div>
   </table>
@@ -157,7 +125,8 @@
 
 <!-- 机种数量统计 -->
 <div class="sum">
-  <div class="buttom" *ngIf="go_bool">
+  <!-- *ngIf="go_bool" -->
+  <div class="buttom">
     <span *ngFor="let item of page_number_list"
       [ngStyle]="{'background-color': item.status? 'rgba(72, 156, 156, 100)':'','border-color': item.status? '#489C9C':'rgba(255, 255, 255, 100)','cursor':'pointer'}"
       class="number" (click)="check_number(item.number )">{{item.number}}</span>
@@ -177,12 +146,12 @@
   </div>
   <!-- 幾種數量統計 -->
   <table id="machine_type_sum">
-    <tbody id="mmachine_type">
-    <tr *ngFor="let items of show_type_list">
-      <td style="width: 6%;">{{items[0]}}</td>
-      <td *ngFor="let item of items[1]" style="width: 8.25%;">{{item}}</td>
-      <td style="width: 9%;"></td>
-    </tr>
+    <tbody id="machine_type">
+      <tr *ngFor="let items of show_type_list">
+        <td style="width: 6%;">{{items[0]}}</td>
+        <td *ngFor="let item of items[1]" style="width: 8.25%;">{{item}}</td>
+        <td style="width: 9%;"></td>
+      </tr>
     </tbody>
   </table>
 </div>

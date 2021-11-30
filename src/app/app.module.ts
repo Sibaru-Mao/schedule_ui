@@ -28,17 +28,9 @@ import { zh_CN } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';
+let configjson = require('../assets/config.json')
 
 registerLocaleData(zh);
-
-let configjson = {
-  wkskeycloak: {
-    "url": "https://keycloak.wks.wistron.com.cn/auth/",
-    "realm": "K8SWKSI40",
-    "clientId": "TTL-schedule"
-  },
-}
-
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>

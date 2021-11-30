@@ -1,21 +1,9 @@
-// import { ModalServiceService } from './../../../../services/modal-service.service';
 import { SummaryComponent } from './../summary/summary.component';
 import { Component, OnInit } from '@angular/core';
 import { DataService } from './../../../../services/data.service';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import * as XLSX from 'ts-xlsx'
-// exceljs 所需的 polyfills
-// require('core-js/modules/es.promise');
-// require('core-js/modules/es.string.includes');
-// require('core-js/modules/es.object.assign');
-// require('core-js/modules/es.object.keys');
-// require('core-js/modules/es.symbol');
-// require('core-js/modules/es.symbol.async-iterator');
-// require('regenerator-runtime/runtime');
 import * as Excel from 'exceljs';
-
-// const Excel = require('exceljs');
-// const ES = require('exceljs/dist/es5');
 
 interface ItemData {
   id: string;
@@ -52,7 +40,6 @@ export class DetailComponent implements OnInit {
   detail_tem_Obj = {}
   constructor(
     private data: DataService,
-    // private modals: ModalServiceService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -155,11 +142,7 @@ export class DetailComponent implements OnInit {
       this.updateEditCache()
     }
   }
-
-  //ng-zorro
-
   edit_cache: { [key: string]: { edit: boolean; data: ItemData } } = {};
-  // detail_list: any = [];
 
   startEdit(id: any): void {
     this.edit_cache[id].edit = true;
@@ -171,15 +154,11 @@ export class DetailComponent implements OnInit {
     if (r == true) {
       const index = this.detail_list.findIndex(item => item.id === id);
       this.detail_list.splice(index, 1)
-      // this.detail_list = JSON.parse(JSON.stringify(this.detail_list))
-      // this.updateEditCache()
-      // Object.assign(this.detail_list[index],);
       await this.data.delete_machine_detail(id)
     }
   }
 
   cancelEdit(id: string): void {
-    // const index = this.detail_list.findIndex(item => item.id === id);
     this.edit_cache[id] = {
       data: this.detail_tem_Obj[id]["data"],
       edit: false
@@ -273,15 +252,11 @@ export class DetailComponent implements OnInit {
       worksheet.getColumn('D').width = 40;
       worksheet.getColumn('I').width = 19;
       worksheet.getColumn('K').width = 17;
-      // worksheet.getRow(1).eachCell((cell,colnm)=>{
-      //   cell.alignment = { vertical: 'middle', horizontal: 'center' };
-      // });
       console.log(await workbook.xlsx)
 
       // 7.保存文件
       const path = './detail' + '.xlsx';
       await workbook.xlsx.writeFile(path);
-      // resolve(path.replace('./storages/moh/', 'storages/moh/download/'));
     });
   }
 
@@ -297,7 +272,6 @@ export class DetailComponent implements OnInit {
       fn: (fileList) => {
         const filterFiles = fileList.filter(w => ~['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].indexOf(w.type));
         if (filterFiles.length !== fileList.length) {
-          // this.msg.error(`包含文件格式不正确，只支持 excel 格式`);
           return filterFiles;
         }
         return fileList;
@@ -315,10 +289,6 @@ export class DetailComponent implements OnInit {
     const formData = new FormData();
     formData.append('file', file);
     this.data.excel_machine_detail(formData)
-    //上传文件并解析excel
-    // this.http.post('api/web/web/upload/file', formData).subscribe((res: any) => {
-
-    // })
   }
 
 }

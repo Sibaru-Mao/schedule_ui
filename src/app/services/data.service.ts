@@ -36,7 +36,7 @@ export class DataService {
 
   //修改本周线体数据
   async change_machine_data(data, date) {
-    return (await this.http.get('changeMachinePlant?data=' + JSON.stringify(data) + '&date=' + JSON.stringify(date)))
+    return (await this.http.post('changeMachinePlant', { data: JSON.stringify(data), date: JSON.stringify(date) }))
   }
 
 
@@ -55,7 +55,7 @@ export class DataService {
 
   async delete_machine_detail(id) {
     console.log(id);
-    return (await this.http.post('deleteMachineDetail' , {data:id}))
+    return (await this.http.post('deleteMachineDetail', { data: id }))
   }
 
   async excel_machine_detail(item) {
@@ -75,8 +75,8 @@ export class DataService {
     return (await this.http.get('showPersonnel'))
   }
 
-  async change_personnel(item,bool) {
-    return (await this.http.post('changePersonnel', { data: item,status:bool }))
+  async change_personnel(item, bool) {
+    return (await this.http.post('changePersonnel', { data: item, status: bool }))
   }
 
   /* 人员信息 */
@@ -85,6 +85,6 @@ export class DataService {
   }
 
   async show_people(man) {
-    return (await this.http.get2('http://webap01.wks.wistron.com.cn:13015/api/Idlwwhrs?filter={"where":{"and":[{"EMPLID":' + JSON.stringify(man)+'}]}}'))
+    return (await this.http.get2('Idlwwhrs?filter={"where":{"and":[{"EMPLID":' + JSON.stringify(man) + '}]}}'))
   }
 }
