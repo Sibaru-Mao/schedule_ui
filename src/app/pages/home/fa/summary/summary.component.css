@@ -161,7 +161,6 @@
   line-height: 32px;
   text-align: center;
   font-size: 13px;
-  background: transparent;
   color: rgba(255, 255, 255, 100);
   border: 1px solid rgba(81, 87, 88, 100);
   border-radius: 5px;
@@ -169,10 +168,7 @@
   vertical-align: middle;
   appearance: none;
   cursor: pointer;
-  /* -moz-appearance:none;
-  -webkit-appearance:none;
-  background-color: #fff; */
-  background: url("../../../../../assets/logo/color_logo.svg") no-repeat scroll right center transparent;
+  background: url("../../../../../assets/logo/color_logo.svg") no-repeat right transparent;
 }
 
 .color>option {
@@ -188,7 +184,6 @@
   height: 100%;
   width: 100%;
   background: transparent;
-  background-color: #203033;
   color: white;
   border: 1px solid #1B1D1F;
 }
@@ -385,7 +380,6 @@ nz-date-picker {
   width: 40%;
   height: 28px;
   border: 2px solid #489C9C;
-  background-color: #1B1D1F;
   background: url("../../../../../assets/logo/calendar_logo.svg") no-repeat right transparent;
 }
 

@@ -19,7 +19,6 @@ export class HttpService {
     this.config = this.configService.getSpecificConfigure('datasources')
     // this.ROOTURL = config.host;
     this.ROOTURL = this.config.url
-    this.httpOptions
     // this.ROOTURL2 = config.host2;
     // this.ROOTURL3 = config.host3;
   }

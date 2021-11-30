@@ -35,8 +35,7 @@
 
 <!-- 表格填写 -->
 <div class="form">
-  <table>
-    <!-- 机种数量及其统计 -->
+  <table summary="机种数量及其统计">
     <thead>
       <tr>
         <th id="line" rowspan="2" style="width: 6%;">綫別</th>
@@ -63,9 +62,9 @@
               <span *ngIf="!modify_bool">{{list[0]}}</span>
               <br>
               <img *ngIf="modify_bool" src="../../../../../assets/logo/Increase_small_logo.svg"
-                (click)="increase_model(i)">
+                (click)="increase_model(i)" alt="">
             </td>
-            <table id="internal_table">
+            <table id="internal_table" summary_table="机种数据">
               <tbody>
                 <tr id="line_table" *ngFor="let items of list | slice:1:list.length-1;let id=index">
                   <ng-container *ngFor="let item of items">
@@ -146,7 +145,7 @@
       確認</div>
   </div>
   <!-- 幾種數量統計 -->
-  <table id="machine_type_sum">
+  <table id="machine_type_sum" summary="机种数目求和">
     <tbody id="machine_type">
       <tr *ngFor="let items of show_type_list">
         <td style="width: 6%;">{{items[0]}}</td>
