@@ -36,21 +36,22 @@
 <!-- 表格填写 -->
 <div class="form">
   <table>
+    <!-- 机种数量及其统计 -->
     <thead>
       <tr>
-        <th rowspan="2" style="width: 6%;">綫別</th>
-        <th colspan="4" style="width: 16%;" *ngFor="let item of show_calendar">
+        <th id="line" rowspan="2" style="width: 6%;">綫別</th>
+        <th id="calendar" colspan="4" style="width: 16%;" *ngFor="let item of show_calendar">
           {{item}}
         </th>
-        <th colspan="2" style="width: 9%;">當班產能</th>
+        <th id="onCapacity" colspan="2" style="width: 9%;">當班產能</th>
       </tr>
       <tr>
         <ng-container *ngFor="let item of show_calendar">
-          <th colspan="2" style="width: 8.25%;">Day</th>
-          <th colspan="2" style="width: 8.25%;">Night</th>
+          <th id="day" colspan="2" style="width: 8.25%;">Day</th>
+          <th id="night" colspan="2" style="width: 8.25%;">Night</th>
         </ng-container>
-        <th>幾種</th>
-        <th>產能</th>
+        <th id="machine">幾種</th>
+        <th id="capacity">產能</th>
       </tr>
     </thead>
     <div>

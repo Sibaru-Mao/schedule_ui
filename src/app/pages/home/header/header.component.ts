@@ -1,6 +1,5 @@
 import { KeycloakService } from 'keycloak-angular';
 import { Component, OnInit } from '@angular/core';
-import * as config from '../../../../assets/config.json'
 
 @Component({
   selector: 'app-header',

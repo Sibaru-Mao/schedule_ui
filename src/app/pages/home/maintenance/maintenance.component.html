@@ -31,12 +31,8 @@
   <table border="1" cellspacing="0" cellpadding="0" spellcheck=fasle>
     <thead>
       <tr>
-        <th>
-          類型
-        </th>
-        <th colspan=22>
-          機種名稱
-        </th>
+        <th id="type">類型</th>
+        <th id="name" colspan=22>機種名稱</th>
       </tr>
     </thead>
     <tbody>
@@ -52,26 +48,7 @@
           </td>
         </tr>
         <div *ngIf="delete_bool" class="delete row" (click)="delete_machine_type(id)">删除行</div>
-
       </ng-container>
-
-      <!-- <dl *ngIf="delete_bool">
-        <td *ngFor="let item of max_col | slice:1;let id=index">
-          <dt></dt>
-          <dd>
-            <div class="delete" (click)="delete_machine(id+1)" style="top:22px">删除列</div>
-          </dd>
-        </td>
-      </dl> -->
-
-
-      <!-- <tr *ngIf="delete_bool">
-        <td></td>
-        <td *ngFor="let item of max_col | slice:1;let id=index">
-          <div class="delete" (click)="delete_machine(id+1)" style="top:22px">删除列</div>
-        </td>
-      </tr> -->
-
     </tbody>
   </table>
 </div>

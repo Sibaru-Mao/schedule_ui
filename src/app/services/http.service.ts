@@ -1,24 +1,24 @@
 // import { ConfigServiceService } from './configService/config-service.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-let config = require('../../assets/config.json')
+import { DataSourceService } from '../services/config'
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
   ROOTURL: string
   httpOptions: any
-  // ROOTURL2: string
-  // ROOTURL3: string
+  config
+
 
   constructor(
     private http: HttpClient,
-    // private configService: ConfigServiceService
+    private configService: DataSourceService
     // private message: NzMessageService
   ) {
-    // let config = this.configService.getSpecificConfigure('datasources')
+    this.config = this.configService.getSpecificConfigure('datasources')
     // this.ROOTURL = config.host;
-    this.ROOTURL = config.url
+    this.ROOTURL = this.config.url
     this.httpOptions
     // this.ROOTURL2 = config.host2;
     // this.ROOTURL3 = config.host3;
@@ -30,7 +30,7 @@ export class HttpService {
   }
 
   get2(url: string): any {
-    var URL = config.URL + url;
+    var URL = this.config.URL + url;
     var res = this.judgeToken(URL, '', 'get');
     return res;
   }

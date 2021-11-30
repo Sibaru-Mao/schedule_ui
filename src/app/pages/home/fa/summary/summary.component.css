@@ -386,7 +386,7 @@ nz-date-picker {
   height: 28px;
   border: 2px solid #489C9C;
   background-color: #1B1D1F;
-  background: url("../../../../../assets/logo/calendar_logo.svg") no-repeat scroll right center transparent;
+  background: url("../../../../../assets/logo/calendar_logo.svg") no-repeat right transparent;
 }
 
 :host ::ng-deep .ng-pristine,

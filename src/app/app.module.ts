@@ -1,7 +1,7 @@
 import { ActivateService } from './AuthGuard/activate.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-
+import { DataSourceService } from './services/config'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -47,6 +47,14 @@ function initializeKeycloak(keycloak: KeycloakService) {
       },
     });
 }
+
+export function configureProvider(loader: DataSourceService): () => Promise<void> {
+  return async () => {
+    await loader.loadConfigure([
+      { path: '../assets/config.json', type: 'datasources' }
+    ]);
+  };
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,6 +90,12 @@ function initializeKeycloak(keycloak: KeycloakService) {
       useFactory: initializeKeycloak,
       multi: true,
       deps: [KeycloakService],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: configureProvider,
+      deps: [DataSourceService],
+      multi: true
     },
     ActivateService
   ],

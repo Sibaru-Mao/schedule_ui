@@ -4,7 +4,8 @@
     <img src="../../../../assets/logo/add_logo.svg" alt="">
     <span>新增人員</span>
   </div>
-  <nz-modal [(nzVisible)]="bool.isVisible" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel('isVisible')">
+  <nz-modal [(nzVisible)]="bool.isVisible" [nzContent]="modalContent" [nzFooter]="modalFooter"
+    (nzOnCancel)="handleCancel('isVisible')">
 
     <ng-template #modalContent>
       <p>工號:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" (change)="add_people()" [(ngModel)]="id_data"></p>
@@ -23,11 +24,12 @@
       <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Save</button>
     </ng-template>
   </nz-modal>
-  <nz-modal [(nzVisible)]="bool.isEdit" [nzContent]="editContent" [nzFooter]="editFooter" (nzOnCancel)="handleCancel('isEdit')">
+  <nz-modal [(nzVisible)]="bool.isEdit" [nzContent]="editContent" [nzFooter]="editFooter"
+    (nzOnCancel)="handleCancel('isEdit')">
     <ng-template #editContent>
       <div>
-        <input type="radio" id="check1" [(ngModel)]="check_data" value="1"/><label for="check1">编辑<br></label>
-        <input type="radio" id="check0" [(ngModel)]="check_data" value="0"/><label for="check0">刪除</label>
+        <input type="radio" id="check1" [(ngModel)]="check_data" value="1" /><label for="check1">编辑<br></label>
+        <input type="radio" id="check0" [(ngModel)]="check_data" value="0" /><label for="check0">刪除</label>
       </div>
     </ng-template>
 
@@ -41,14 +43,14 @@
 <!-- 机种类型表 -->
 <div class="bottom">
   <nz-table #fixedTable [nzData]="personnel_list" [nzFrontPagination]=false [nzBordered]=true
-     [nzScroll]="{ x: '1000px', y: '380px' }">
+    [nzScroll]="{ x: '1000px', y: '380px' }">
     <thead>
       <tr>
-        <th>工號</th>
-        <th>姓名</th>
-        <th>Mail</th>
-        <th>權限</th>
-        <th nzRight>Action</th>
+        <th id="id">工號</th>
+        <th id="name">姓名</th>
+        <th id="mail">Mail</th>
+        <th id="admin">權限</th>
+        <th id="action" nzRight>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -75,7 +77,7 @@
           </td>
         </ng-container>
         <td (click)="showModal('isEdit',item)">
-          <a >編輯<img src="../../../../../assets/logo/menu_logo.svg" alt=""></a>
+          <a>編輯<img src="../../../../../assets/logo/menu_logo.svg" alt=""></a>
         </td>
       </tr>
     </tbody>
